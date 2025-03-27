@@ -151,7 +151,7 @@ class Woocommerce_Product_Attachment_Public {
                     }
                 }
             }
-            wp_die( sprintf( __( '<strong>This Attachement is Expired.</strong> You are no longer to download this attachement.', 'woocommerce-product-attachment' ) ) );
+            wp_die( sprintf( esc_html__( '<strong>This Attachement is Expired.</strong> You are no longer to download this attachement.', 'woocommerce-product-attachment' ) ) );
         } else {
             require_once plugin_dir_path( __FILE__ ) . 'partials/wcpoa-send-file.php';
         }
@@ -444,6 +444,30 @@ class Woocommerce_Product_Attachment_Public {
             <?php 
         }
         do_action( 'after_wcpoa_product_tab_content' );
+    }
+
+    /**
+     * Filter for plugin compatibility with wc subscription renewal
+     *
+     * @since 2.3.1
+     * 
+     */
+    function wcpoa_subscription_renewal_compatibility( $other_data, $cart_item ) {
+        // Check if 'wcpoa_order_attachment_order_arr' exists in subscription renewal meta
+        if ( isset( $cart_item['subscription_renewal']['custom_line_item_meta']['wcpoa_order_attachment_order_arr'] ) || isset( $cart_item['subscription_resubscribe']['custom_line_item_meta']['wcpoa_order_attachment_order_arr'] ) ) {
+            $tmp = array();
+            // Iterate through other_data and filter out the custom meta
+            foreach ( $other_data as $index => $array ) {
+                if ( $array['key'] !== 'wcpoa_order_attachment_order_arr' ) {
+                    $tmp[] = '';
+                    // Add empty string to tmp
+                }
+            }
+            $other_data = $tmp;
+            // Update $other_data
+        }
+        return $other_data;
+        // Return the modified data
     }
 
     /**
@@ -1043,7 +1067,13 @@ class Woocommerce_Product_Attachment_Public {
                 }
             }
             /* Attachments from admin order status */
-            $wcpoa_all_ids = get_post_meta( $order_id, '_wcpoa_order_attachments', true );
+            $wcpoa_all_ids = '';
+            if ( class_exists( 'Automattic\\WooCommerce\\Utilities\\OrderUtil' ) && OrderUtil::custom_orders_table_usage_is_enabled() ) {
+                $_order = wc_get_order( $order_id );
+                $wcpoa_all_ids = $_order->get_meta( '_wcpoa_order_attachments', true );
+            } else {
+                $wcpoa_all_ids = get_post_meta( $order_id, '_wcpoa_order_attachments', true );
+            }
             if ( !empty( $wcpoa_all_ids ) && "" !== $wcpoa_all_ids ) {
                 $id_array = explode( ",", $wcpoa_all_ids );
                 foreach ( $id_array as $wcpoa_id ) {

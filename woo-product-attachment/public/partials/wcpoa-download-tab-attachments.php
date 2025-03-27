@@ -3,7 +3,7 @@
 if (!defined('WPINC')) {
     die;
 }
-
+use Automattic\WooCommerce\Utilities\OrderUtil;
 // User role accessibility
 $user = wp_get_current_user();
 
@@ -1117,7 +1117,13 @@ if((int)$wcpoa_att_download_restrict_flag === 1 && $wcpoa_att_in_my_acc === "wcp
     }
 
     // Get the Order Page Attachments
-    $wcpoa_all_ids = get_post_meta( $items_order_id, '_wcpoa_order_attachments', true );
+    $wcpoa_all_ids = '';
+     if ( class_exists( 'Automattic\WooCommerce\Utilities\OrderUtil' ) && OrderUtil::custom_orders_table_usage_is_enabled() ) {
+         $_order = wc_get_order( $order_id );
+         $wcpoa_all_ids = $_order->get_meta( '_wcpoa_order_attachments', true );
+     } else {
+         $wcpoa_all_ids = get_post_meta( $order_id, '_wcpoa_order_attachments', true );
+     }
     if( !empty( $wcpoa_all_ids ) && "" !== $wcpoa_all_ids ){
         $id_array = explode( ",", $wcpoa_all_ids );
         foreach ($id_array as $wcpoa_id){

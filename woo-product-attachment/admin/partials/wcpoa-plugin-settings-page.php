@@ -131,7 +131,9 @@ wp_nonce_field( 'wcpoa_save_global_settings', 'wcpoa_save_global_settings_nonce'
                 <div class="wcpoa-general-content-heading">
                     <h3><?php 
 esc_html_e( 'FRONTEND: Product Page', 'woocommerce-product-attachment' );
-?></h3>
+?><a href="<?php 
+echo esc_url( 'https://docs.thedotstore.com/article/369-how-to-add-frontend-product-page-tab-title-and-why-is-it-for' );
+?>" target="_blank" class="wcpoa-doc-link"></a></h3>
                 </div>
                 <div class="wcpoa-general-input text-title">
                     <label
@@ -147,8 +149,7 @@ echo esc_attr( $wcpoa_product_tname );
                         <span class="wcpoa-description-tooltip-icon"></span>
                         <p class="wcpoa-description">
                             <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Customize Product Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/369-how-to-add-frontend-product-page-tab-title-and-why-is-it-for' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Customize Product Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment.', 'woocommerce-product-attachment' );
 ?>
                         </p>
                     </div>
@@ -166,8 +167,7 @@ esc_html_e( 'Select user role, which you want to display an attachment. Leave un
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select to display product attachments to all or only to specific selected user roles. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/369-how-to-add-frontend-product-page-tab-title-and-why-is-it-for' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select to display product attachments to all or only to specific selected user roles.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -224,7 +224,9 @@ foreach ( $wp_roles->roles as $key => $value ) {
                 <div class="wcpoa-general-content-heading">
                     <h3><?php 
 esc_html_e( 'Order Attachment Setting', 'woocommerce-product-attachment' );
-?></h3>
+?><a href="<?php 
+echo esc_url( 'https://docs.thedotstore.com/article/1076-order-attachment-settings-step-by-step-guide' );
+?>" target="_blank" class="wcpoa-doc-link"></a></h3>
                 </div>
                 <div class="wcpoa-general-input text-title">
                     <label
@@ -240,8 +242,7 @@ echo esc_attr( $wcpoa_order_tname );
                         <span class="wcpoa-description-tooltip-icon"></span>
                         <p class="wcpoa-description">
                             <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Customize Order Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/397-how-to-update-order-detail-page-attachment-title' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Customize Order Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment.', 'woocommerce-product-attachment' );
 ?>
                         </p>
                     </div>
@@ -268,8 +269,7 @@ esc_html_e( 'Disable', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Choose to enable or disable the attachments listing on the order details page. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/370-order-attachment-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Choose to enable or disable the attachments listing on the order details page.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -295,8 +295,7 @@ esc_html_e( 'No', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select whether to display attachments in order emails or not. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/370-order-attachment-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select whether to display attachments in order emails or not.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -320,8 +319,7 @@ esc_html_e( 'Before Order', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select a position for attachment list on order details page. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/370-order-attachment-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select a position for attachment list on order details page.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -341,8 +339,7 @@ esc_html_e( 'Select order status for which the attachment(s) will be visible. Le
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Display attachment on specific selected order status emails. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/370-order-attachment-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Display attachment on specific selected order status emails.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -386,8 +383,7 @@ echo esc_attr( $wcpoa_admin_order_tname );
                         <span class="wcpoa-description-tooltip-icon"></span>
                         <p class="wcpoa-description">
                             <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Customize the Admin Order Details Page Tab Title: Displayed on the admin side. Default tab name: Attachment. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/398-admin-order-page-product-attachment-title' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Customize the Admin Order Details Page Tab Title: Displayed on the admin side. Default tab name: Attachment.', 'woocommerce-product-attachment' );
 ?>
                         </p>
                     </div>
@@ -399,7 +395,9 @@ echo sprintf( esc_html__( 'Customize the Admin Order Details Page Tab Title: Dis
                 <div class="wcpoa-general-content-heading">
                     <h3><?php 
 esc_html_e( 'My Account', 'woocommerce-product-attachment' );
-?></h3>
+?><a href="<?php 
+echo esc_url( 'https://docs.thedotstore.com/article/1077-managing-attachments-in-my-account-order-pages' );
+?>" target="_blank" class="wcpoa-doc-link"></a></h3>
                 </div>
                 <div class="wcpoa-general-input">
                     <label
@@ -423,8 +421,7 @@ esc_html_e( 'Disable', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select whether to display attachments in My Account page or not. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/371-how-to-show-attachment-in-my-account-page' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select whether to display attachments in My Account page or not.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -452,8 +449,7 @@ esc_html_e( 'Disable', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select whether to display attachments in Thank You page or not. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/372-how-to-show-attachment-on-the-thank-you-page' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select whether to display attachments in Thank You page or not.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -482,8 +478,7 @@ esc_html_e( 'Disable', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select whether to display attachments in Download tab or not. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/373-how-to-show-attachment-in-downloads-tab' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select whether to display attachments in Download tab or not.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -495,7 +490,9 @@ echo sprintf( esc_html__( 'Select whether to display attachments in Download tab
                 <div class="wcpoa-general-content-heading">
                     <h3><?php 
 esc_html_e( 'Attachment Setting', 'woocommerce-product-attachment' );
-?></h3>
+?><a href="<?php 
+echo esc_url( 'https://docs.thedotstore.com/article/1080-attachment-display-and-download-settings' );
+?>" target="_blank" class="wcpoa-doc-link"></a></h3>
                 </div>
                 <div class="wcpoa-general-input">
                     <label
@@ -519,8 +516,7 @@ esc_html_e( 'No', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select whether to show attachment expiry date or not. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/375-how-to-show-attachment-expiry-date-for-your-store-as-well-as-email' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select whether to show attachment expiry date or not.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -546,8 +542,7 @@ esc_html_e( 'Default Button', 'woocommerce-product-attachment' );
                                 <span class="wcpoa-description-tooltip-icon"></span>
                                 <p class="wcpoa-description">
                                     <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'If no file icon selected then it will show the default attachment type. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/377-how-to-enable-icon-for-your-attachment-instead-of-the-download-button' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'If no file icon selected then it will show the default attachment type.', 'woocommerce-product-attachment' );
 ?>
                                 </p>
                             </div>
@@ -576,8 +571,7 @@ esc_html_e( 'View', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Set attachments action as download or view in browser. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/589-how-to-set-attachment-action' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Set attachments action as download or view in browser.', 'woocommerce-product-attachment' );
 ?>
                             </p>
                         </div>
@@ -611,8 +605,7 @@ esc_html_e( 'Both', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select an option/type to download the product attachments. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/589-how-to-set-attachment-action' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select an option/type to download the product attachments.', 'woocommerce-product-attachment' );
 ?> 
                             </p>
                         </div>
@@ -623,7 +616,9 @@ echo sprintf( esc_html__( 'Select an option/type to download the product attachm
                 <div class="wcpoa-general-content-heading">
                     <h3><?php 
 esc_html_e( 'Global Default Setting', 'woocommerce-product-attachment' );
-?></h3>
+?><a href="<?php 
+echo esc_url( 'https://docs.thedotstore.com/article/1078-global-default-attachment-settings' );
+?>" target="_blank" class="wcpoa-doc-link"></a></h3>
                 </div>
 
                 <div class="wcpoa-general-input">
@@ -648,8 +643,7 @@ esc_html_e( 'No', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Enable the attachment tab to be selected by default in the first position on the product page. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/393-how-to-display-attachment-tab-default-selected' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Enable the attachment tab to be selected by default in the first position on the product page.', 'woocommerce-product-attachment' );
 ?> 
                             </p>
                         </div>
@@ -678,8 +672,7 @@ esc_html_e( 'No', 'woocommerce-product-attachment' );
                             <span class="wcpoa-description-tooltip-icon"></span>
                             <p class="wcpoa-description">
                                 <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Select whether to display size of the attached file or not. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/392-how-to-display-attachment-with-attachment-size' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Select whether to display size of the attached file or not.', 'woocommerce-product-attachment' );
 ?> 
                             </p>
                         </div>
@@ -694,7 +687,9 @@ echo sprintf( esc_html__( 'Select whether to display size of the attached file o
                 <div class="wcpoa-general-content-heading">
                     <h3><?php 
 esc_html_e( 'Attachments Custom Styles', 'woocommerce-product-attachment' );
-?></h3>
+?><a href="<?php 
+echo esc_url( 'https://docs.thedotstore.com/article/399-how-to-customize-style-the-attachment-section' );
+?>" target="_blank" class="wcpoa-doc-link"></a></h3>
                 </div>
                 <div class="wcpoa-general-input">
                     <label
@@ -710,8 +705,7 @@ echo esc_html( $attachment_custom_style );
                         <span class="wcpoa-description-tooltip-icon"></span>
                         <p class="wcpoa-description">
                             <?php 
-/* translators: %s: Link to documentation */
-echo sprintf( esc_html__( 'Add your custom css for our product attachment section. %s.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/399-how-to-customize-style-the-attachment-section' ) . '" target="_blank">' . esc_html__( 'Learn more', 'woocommerce-product-attachment' ) . '</a>' );
+echo esc_html__( 'Add your custom css for our product attachment section.', 'woocommerce-product-attachment' );
 ?>
                         </p>
                     </div>

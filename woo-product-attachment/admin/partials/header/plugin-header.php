@@ -34,16 +34,12 @@ if ( !empty( $tab_menu ) && $tab_menu === 'wcpoa-plugin-getting-started' ) {
     $about_plugin_setting_menu_enable = "active";
     $about_plugin_get_started = "active";
 }
-if ( !empty( $tab_menu ) && $tab_menu === 'wcpoa-plugin-quick-info' ) {
-    $about_plugin_setting_menu_enable = "active";
-    $about_plugin_quick_info = "active";
-}
 if ( !empty( $page_menu ) && $page_menu === 'wcpoa_bulk_attachment' ) {
     $woocommerce_product_bulk_attachment = "active";
 }
 $wpap_free_dashboard = ( isset( $tab_menu ) && 'wcpoa-upgrade-dashboard' === $tab_menu ? 'active' : '' );
 $wpap_account_page = ( isset( $page_menu ) && 'woocommerce_product_attachment-account' === $page_menu ? 'active' : '' );
-$wpap_settings_menu = ( (isset( $tab_menu ) || isset( $page_menu )) && ('wcpoa-plugin-getting-started' === $tab_menu || 'wcpoa-plugin-quick-info' === $tab_menu || !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) && 'woocommerce_product_attachment-account' === $page_menu) ? 'active' : '' );
+$wpap_settings_menu = ( (isset( $tab_menu ) || isset( $page_menu )) && ('wcpoa-plugin-getting-started' === $tab_menu || !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) && 'woocommerce_product_attachment-account' === $page_menu) ? 'active' : '' );
 $scfw_display_submenu = ( !empty( $wpap_settings_menu ) && 'active' === $wpap_settings_menu ? 'display:inline-block' : 'display:none' );
 $admin_object = new Woocommerce_Product_Attachment_Admin('', '');
 ?>
@@ -104,61 +100,51 @@ esc_html_e( 'Help', 'woocommerce-product-attachment' );
                         <?php 
 ?>
                             <a class="dots-upgrade-btn" target="_blank" href="javascript:void(0);"><?php 
-esc_html_e( 'Upgrade', 'woocommerce-product-attachment' );
+esc_html_e( 'Upgrade Now', 'woocommerce-product-attachment' );
 ?></a>
                             <?php 
 ?>
                     </div>
                 </div>
             </div>
-            <div class="dots-menu-main">
-                <nav>
-                    <ul>
-                        <li><a class="dotstore_plugin <?php 
+            <div class="dots-bottom-menu-main">
+                <div class="dots-menu-main">
+                    <nav>
+                        <ul>
+                            <li><a class="dotstore_plugin <?php 
 echo esc_attr( $wcpoa_plugin_setting_page );
 ?>" href="<?php 
 echo esc_url( site_url( 'wp-admin/admin.php?page=woocommerce_product_attachment&tab=wcpoa_plugin_setting_page' ) );
 ?>"><?php 
 esc_html_e( 'Global Settings', 'woocommerce-product-attachment' );
 ?></a></li>
-                        <li><a class="dotstore_plugin <?php 
+                            <li><a class="dotstore_plugin <?php 
 echo esc_attr( $woocommerce_product_bulk_attachment );
 ?>" href="<?php 
 echo esc_url( site_url( 'wp-admin/admin.php?page=wcpoa_bulk_attachment' ) );
 ?>"><?php 
 esc_html_e( 'Bulk Attachment', 'woocommerce-product-attachment' );
 ?></a></li>
-                        <li>
-                            <a class="dotstore_plugin <?php 
-echo esc_attr( $wpap_settings_menu );
-?>" href="<?php 
-echo esc_url( add_query_arg( array(
-    'page' => 'woocommerce_product_attachment&tab=wcpoa-plugin-getting-started',
-), admin_url( 'admin.php' ) ) );
-?>"><?php 
-esc_html_e( 'Settings', 'woocommerce-product-attachment' );
-?></a>
-                        </li>
-                        <?php 
+                            <?php 
 if ( wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code() ) {
     ?>
-                            <li>
-                                <a class="dotstore_plugin <?php 
+                                <li>
+                                    <a class="dotstore_plugin <?php 
     echo esc_attr( $wpap_account_page );
     ?>" href="<?php 
     echo esc_url( $wpap_fs->get_account_url() );
     ?>"><?php 
     esc_html_e( 'License', 'woocommerce-product-attachment' );
     ?></a>
-                            </li>
-                            <?php 
+                                </li>
+                                <?php 
 }
 ?>
-                        <?php 
+                            <?php 
 if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
     ?>
-                            <li>
-                                <a class="dotstore_plugin dots_get_premium <?php 
+                                <li>
+                                    <a class="dotstore_plugin dots_get_premium <?php 
     echo esc_attr( $wpap_free_dashboard );
     ?>" href="<?php 
     echo esc_url( add_query_arg( array(
@@ -167,12 +153,22 @@ if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
     ?>"><?php 
     esc_html_e( 'Get Premium', 'woocommerce-product-attachment' );
     ?></a>
-                            </li>
-                            <?php 
+                                </li>
+                                <?php 
 }
 ?>
-                    </ul>
-                </nav>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="dots-getting-started">
+                    <a href="<?php 
+echo esc_url( add_query_arg( array(
+    'page' => 'woocommerce_product_attachment&tab=wcpoa-plugin-getting-started',
+), admin_url( 'admin.php' ) ) );
+?>" class="<?php 
+echo esc_attr( $about_plugin_get_started );
+?>"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 4.75a7.25 7.25 0 100 14.5 7.25 7.25 0 000-14.5zM3.25 12a8.75 8.75 0 1117.5 0 8.75 8.75 0 01-17.5 0zM12 8.75a1.5 1.5 0 01.167 2.99c-.465.052-.917.44-.917 1.01V14h1.5v-.845A3 3 0 109 10.25h1.5a1.5 1.5 0 011.5-1.5zM11.25 15v1.5h1.5V15h-1.5z" fill="#a0a0a0"></path></svg></a>
+                </div>
             </div>
         </header>
         <!-- Upgrade to pro popup -->
@@ -183,51 +179,4 @@ if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
 ?>
         <div class="dots-settings-inner-main">
             <div class="wcpoa-section-left">
-                <div class="dotstore-submenu-items" style="<?php 
-echo esc_attr( $scfw_display_submenu );
-?>">
-                    <ul>
-                        <li><a class="<?php 
-echo esc_attr( $about_plugin_get_started );
-?>" href="<?php 
-echo esc_url( add_query_arg( array(
-    'page' => 'woocommerce_product_attachment&tab=wcpoa-plugin-getting-started',
-), admin_url( 'admin.php' ) ) );
-?>"><?php 
-esc_html_e( 'About', 'woocommerce-product-attachment' );
-?></a></li>
-                        <li><a class="<?php 
-echo esc_attr( $about_plugin_quick_info );
-?>" href="<?php 
-echo esc_url( add_query_arg( array(
-    'page' => 'woocommerce_product_attachment&tab=wcpoa-plugin-quick-info',
-), admin_url( 'admin.php' ) ) );
-?>"><?php 
-esc_html_e( 'Quick info', 'woocommerce-product-attachment' );
-?></a></li>
-                        <?php 
-if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
-    $check_account_page_exist = menu_page_url( 'woocommerce_product_attachment-account', false );
-    if ( isset( $check_account_page_exist ) && !empty( $check_account_page_exist ) ) {
-        ?>
-                                <li>
-                                    <a class="<?php 
-        echo esc_attr( $wpap_account_page );
-        ?>" href="<?php 
-        echo esc_url( $wpap_fs->get_account_url() );
-        ?>"><?php 
-        esc_html_e( 'Account', 'woocommerce-product-attachment' );
-        ?></a>
-                                </li>
-                                <?php 
-    }
-}
-?>
-                        <li><a href="<?php 
-echo esc_url( 'https://www.thedotstore.com/plugins/?utm_source=plugin_header_menu_link&utm_medium=header_menu&utm_campaign=plugin&utm_id=menu_link_product_attachment' );
-?>" target="_blank"><?php 
-esc_html_e( 'Shop Plugins', 'woocommerce-product-attachment' );
-?></a></li>
-                    </ul>
-                </div>
                 <hr class="wp-header-end" />

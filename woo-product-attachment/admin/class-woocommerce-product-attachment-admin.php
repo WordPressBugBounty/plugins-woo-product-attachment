@@ -390,9 +390,6 @@ class Woocommerce_Product_Attachment_Admin {
             if ( $wcpoa_attachment_tab === "wcpoa-plugin-getting-started" ) {
                 self::wcpoa_plugin_get_started();
             }
-            if ( $wcpoa_attachment_tab === "wcpoa-plugin-quick-info" ) {
-                self::wcpoa_plugin_quick_info();
-            }
             if ( $wcpoa_attachment_tab === "wcpoa-upgrade-dashboard" ) {
                 self::wcpoa_plugin_upgrade_dashboard();
             }
@@ -423,15 +420,6 @@ class Woocommerce_Product_Attachment_Admin {
      */
     function wcpoa_plugin_get_started() {
         require_once plugin_dir_path( __FILE__ ) . 'partials/wcpoa-plugin-get-started.php';
-    }
-
-    /**
-     * Plugin Quick Information
-     *
-     * @since    1.0.0
-     */
-    function wcpoa_plugin_quick_info() {
-        require_once plugin_dir_path( __FILE__ ) . 'partials/wcpoa-plugin-quick-info.php';
     }
 
     /**
@@ -535,7 +523,7 @@ class Woocommerce_Product_Attachment_Admin {
             }
             // add this line
             $screen = get_current_screen();
-            if ( empty( $product_id ) || 'product' !== $screen->id ) {
+            if ( !$screen || empty( $product_id ) || 'product' !== $screen->id ) {
                 return;
             }
             // If this is an autosave, our form has not been submitted, so we don't want to do anything.
@@ -771,7 +759,13 @@ class Woocommerce_Product_Attachment_Admin {
         } else {
             $order_id = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS );
         }
-        $wcpoa_all_ids = get_post_meta( $order_id, '_wcpoa_order_attachments', true );
+        $wcpoa_all_ids = '';
+        if ( class_exists( 'Automattic\\WooCommerce\\Utilities\\OrderUtil' ) && OrderUtil::custom_orders_table_usage_is_enabled() ) {
+            $_order = wc_get_order( $order_id );
+            $wcpoa_all_ids = $_order->get_meta( '_wcpoa_order_attachments', true );
+        } else {
+            $wcpoa_all_ids = get_post_meta( $order_id, '_wcpoa_order_attachments', true );
+        }
         $wcpoa_meta_box = '';
         $wcpoa_meta_box .= '<input type="hidden" name="wcpoa_media_ids" data-id="' . esc_attr( $order_id ) . '"  id="wcpoa_media_ids" value=' . esc_attr( $wcpoa_all_ids ) . '>';
         $wcpoa_meta_box .= '<div class="wcpoa-order-attach"><p>';
@@ -873,25 +867,38 @@ class Woocommerce_Product_Attachment_Admin {
                     <div class="wcpoa-table-main res-cl wcpoa-bulk-attach-left">
                         <h2><?php 
         esc_html_e( 'Product Bulk Attachments', 'woocommerce-product-attachment' );
-        ?></h2>
+        ?><a href="<?php 
+        echo esc_url( 'https://docs.thedotstore.com/article/378-bulk-attachment-for-woocommerce' );
+        ?>" target="_blank" class="wcpoa-doc-link"></a></h2>
                         <?php 
         require_once plugin_dir_path( __FILE__ ) . "partials/wcpoa-bulk-attachement-add.php";
         ?>
                     </div>
-                    <div class="wcpoa-table-main res-cl wcpoa-bulk-attach-left">
+                    <div class="wcpoa-table-main res-cl wcpoa-bulk-attach-left wcpoa-product-attachment-import-export">
                         <h2><?php 
-        esc_html_e( 'Bulk Product Attachment Import', 'woocommerce-product-attachment' );
-        ?>
+        esc_html_e( 'Bulk Product Attachment Import and Export', 'woocommerce-product-attachment' );
+        ?><a href="<?php 
+        echo esc_url( 'https://docs.thedotstore.com/article/690-bulk-product-attachment-import' );
+        ?>" target="_blank" class="wcpoa-doc-link"></a>
                             <?php 
         if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
             ?><span class="wcpoa-pro-label wcpoa-pro-feature"></span><?php 
         }
         ?>
+                            <a style="float: right;" href="javascript:void(0)" class="button button-secondary" id="delete-all-prd-attach"><span class="dashicons dashicons-trash wcpoa-delete-icon"></span><?php 
+        esc_html_e( 'Delete All Product Attachments', 'woocommerce-product-attachment' );
+        ?>
+                                <?php 
+        if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
+            ?><span class="wcpoa-pro-label wcpoa-pro-feature"></span><?php 
+        }
+        ?>
+                            </a>
                         </h2>
                         <div class="bulk-product-attachment-wrap">
                             <div class="wcpoa-label wcpoa-bulk-att-desc">
                                 <p><?php 
-        esc_html_e( 'Import product attachments in bulk using product SKUs. Ensure your products have SKUs and upload a CSV file for import. Imported attachments will be added to the corresponding single-product pages based on SKUs. ', 'woocommerce-product-attachment' );
+        esc_html_e( 'Import and Export product attachments in bulk using product SKUs. Ensure your products have SKUs and upload a CSV file for import. Imported attachments will be added to the corresponding single-product pages based on SKUs. ', 'woocommerce-product-attachment' );
         ?></p>
                             </div>
                             <div class="wcpoa-oprations">
@@ -899,14 +906,43 @@ class Woocommerce_Product_Attachment_Admin {
         esc_html_e( 'Import Attachments', 'woocommerce-product-attachment' );
         ?></strong></label>
                                 <span class="wcpoa-description-tooltip-icon"></span>
+                                <?php 
+        if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
+            ?><span class="wcpoa-pro-label wcpoa-pro-feature"></span><?php 
+        }
+        ?>
                                 <p class="wcpoa-description"><?php 
         echo sprintf( esc_html__( '%1$s to review the document guide and download a sample CSV file.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/690-bulk-product-attachment-import' ) . '" target="_blank">' . esc_html__( 'Click here', 'woocommerce-product-attachment' ) . '</a>' );
         ?></p>
                                 <div class="wcpoa-general-input-value">
-                                    <p><input type="file" id="wcpoa-import-file-attachment" name="wcpoa-import-file-attachment" /></p>
+                                    <p><input type="file" id="wcpoa-import-file-attachment" name="wcpoa-import-file-attachment"
+                                    <?php 
+        if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
+            echo 'disabled';
+        }
+        ?>
+                                    /></p>
                                     <p style="margin-bottom:0"><input type="button" value="<?php 
         esc_attr_e( 'Import', 'woocommerce-product-attachment' );
         ?>" class="button button-primary button-large" id="wcpoa-bulk-product-import"></p>
+                                </div>
+                            </div>
+                            <div class="wcpoa-oprations">
+                            <label class="wcpoa-general-input-title"><strong><?php 
+        esc_html_e( 'Export Attachments', 'woocommerce-product-attachment' );
+        ?></strong></label>
+                                <?php 
+        if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
+            ?><span class="wcpoa-pro-label wcpoa-pro-feature"></span><?php 
+        }
+        ?>
+                                <p class="wcpoa-descriptions"><?php 
+        echo esc_html__( 'Exporting the attachments will generate a CSV file containing all products that have attachments, including their SKUs and associated file details.', 'woocommerce-product-attachment' );
+        ?></p>
+                                <div class="wcpoa-general-input-value">
+                                    <p style="margin-bottom:0"><input type="button" value="<?php 
+        esc_attr_e( 'Export', 'woocommerce-product-attachment' );
+        ?>" class="button button-primary button-large" id="wcpoa-bulk-product-export"></p>
                                 </div>
                             </div>
                         </div>

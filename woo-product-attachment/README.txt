@@ -3,9 +3,9 @@ Contributors: dots,jitendrabanjara1991,niravcse006
 Donate link: https://www.thedotstore.com/
 Tags: attachment,woocommerce,productattachment,orderattachment,dots
 Requires at least: 5.0
-Tested up to: 6.5.4
-WC tested up to: 8.9.3
-Stable tag: 2.3.0
+Tested up to: 6.7.2
+WC tested up to: 9.7.1
+Stable tag: 2.3.1
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -120,6 +120,14 @@ Ans: By Product Attachment for WooCommerce plugin you can enable “set date exp
 11.
 
 == Changelog ==
+= 2.3.1 =
+* [Bug Fix] Minor bug fixes releted to attachment display.
+* [Bug Fix] Fixed HPOS compatibility issues in the backend order page.
+* [Enhancement] Introduced sorting for product attachments.
+* [Enhancement] Optimized plugin layout
+* [Enhancement] Compatible with WooCommerce 9.7.x
+* [Enhancement] Compatible with WordPress 6.7.x
+
 = 2.3.0 =
 * [Bug Fix] Minor fixes related to edit product attachments
 * [Bug Fix] Minor fixes related to the order attachments

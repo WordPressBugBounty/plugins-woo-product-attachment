@@ -451,7 +451,7 @@ if (isset($attachment_id)) {
           ob_flush();
           flush();
         }
-        fclose($handle);
+        fclose($handle); //phpcs:ignore
         
    }
     exit;

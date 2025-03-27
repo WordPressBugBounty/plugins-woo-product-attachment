@@ -294,6 +294,28 @@
                 setCookie( 'wcpoa-help-beacon-hide' , 'true', 24 * 60 );
             });
         }
+        if( 'product' === jQuery('#post_type').val() ){
+            jQuery('tbody#wcpoa-ui-tbody').sortable({
+                items: 'tr:not(:first)',
+                cancel: 'input,textarea,button,select,option,number,.wcpoa-disable-sort',
+                axis: 'y',
+                sort: function() {
+                    jQuery('#publish').val(wcpoa_vars.update_order);
+                }
+            });
+        }
+        jQuery('body').on('click', '.wcpoa-add-bulk-attach .wcpoa-button', function(){
+            if( jQuery( 'tbody#wcpoa-ui-tbody' ).hasClass('ui-sortable') ){
+                jQuery( 'tbody#wcpoa-ui-tbody' ).sortable('destroy');
+            }
+        });
+        jQuery('.wcpoa-general-content-heading').click(function (e) {
+            if (jQuery(e.target).closest('a').length) {
+                return;
+            }
+            jQuery(this).toggleClass('active');
+            jQuery(this).nextAll('.wcpoa-general-input').slideToggle();
+        });
     });
     
     /** Script for Freemius upgrade popup */

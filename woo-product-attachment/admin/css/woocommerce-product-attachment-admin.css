@@ -210,7 +210,6 @@ a.wcpoa_attachmentbtn{padding:0;background:none;color:#2271b1;}
 .bulk-product-attachment-wrap h3{margin:0;}
 .bulk-product-attachment-wrap input[type="file"]::-webkit-file-upload-button{color:var(--dotstore-primary);padding:8px;border:1px solid var(--dotstore-primary);border-radius:5px;margin-right:8px;background-color:transparent;}
 .bulk-product-attachment-wrap input[type="file"]::file-selector-button{color:var(--dotstore-primary);padding:8px;border:1px solid var(--dotstore-primary);border-radius:5px;margin-right:8px;background-color:transparent;}
-.bulk-product-attachment-wrap .wcpoa-oprations{margin-top:25px;}
 span.responce_message{padding:10px;display:block;margin-bottom:10px;color:#fff;}
 span.responce_message.error{background:#e43939;}
 span.responce_message.success{background:rgb(0,126,0);}

@@ -70,8 +70,7 @@ if ( !empty( $items ) ) {
     }
 }
 $wcpoa_checkout_all_ids = get_post_meta( $items_order_id, '_wcpoa_checkout_attachment_ids', true );
-echo '<section class="woocommerce-attachment-details">';
-if ( $tab_title_match === 'yes' || !empty( $wcpoa_checkout_all_ids ) || !empty( $wcpoa_order_attachment_items ) ) {
+if ( $tab_title_match === 'yes' || !empty( $wcpoa_checkout_all_ids ) || !empty( $wcpoa_order_attachment_items ) && isset( $wcpoa_order_attachment_items['wcpoa_attachment_ids'] ) && !empty( array_filter( $wcpoa_order_attachment_items['wcpoa_attachment_ids'] ) ) ) {
     if ( !empty( $sitepress ) ) {
         $default_lang = $admin_object->wcpoa_get_default_langugae_with_sitpress();
         $wcpoa_order_tab_name_lang = apply_filters(

@@ -208,6 +208,13 @@ class Woocommerce_Product_Attachment {
             1,
             3
         );
+        $this->loader->add_filter(
+            'woocommerce_get_item_data',
+            $plugin_public,
+            'wcpoa_subscription_renewal_compatibility',
+            11,
+            2
+        );
         $this->loader->add_action( 'init', $plugin_public, 'wcpoa_download_file' );
         if ( $wcpoa_attachments_show_in_email === 'yes' ) {
             $this->loader->add_action( 'woocommerce_email_header', $plugin_public, 'wcpoa_woocommerce_email_add_css_to_email_attachment' );
