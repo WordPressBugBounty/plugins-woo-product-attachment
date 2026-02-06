@@ -90,7 +90,7 @@ if((int)$wcpoa_att_download_restrict_flag === 1 && $wcpoa_att_in_my_acc === "wcp
                                         $wcpoa_order_attachment_exp_time_amount = isset($wcpoa_order_attachment_time_amount[$key]) && !empty($wcpoa_order_attachment_time_amount[$key]) ? $wcpoa_order_attachment_time_amount[$key] : '';
                                         $wcpoa_order_attachment_exp_time_type = isset($wcpoa_order_attachment_time_type[$key]) && !empty($wcpoa_order_attachment_time_type[$key]) ? $wcpoa_order_attachment_time_type[$key] : '';
                                         $wcpoa_order_attachment_time_amount_concate = $wcpoa_order_attachment_exp_time_amount." ".$wcpoa_order_attachment_exp_time_type; 
-                                    $wcpoa_attachment_time_amount_concate_single = strtotime($wcpoa_order_attachment_time_amount_concate);
+                                        $wcpoa_attachment_time_amount_concate_single = (!empty($wcpoa_order_attachment_exp_time_amount) && !empty($wcpoa_order_attachment_exp_time_type)) ? $wcpoa_order_attachment_time_amount_concate : "";
 
                                         $wcpoa_attachment_time_amount = isset($wcpoa_bulk_att_values['wcpoa_attachment_time_amount']) && !empty($wcpoa_bulk_att_values['wcpoa_attachment_time_amount']) ? $wcpoa_bulk_att_values['wcpoa_attachment_time_amount'] : '';
                                         $wcpoa_attachment_time_type = isset($wcpoa_bulk_att_values['wcpoa_attachment_time_type']) && !empty($wcpoa_bulk_att_values['wcpoa_attachment_time_type']) ? $wcpoa_bulk_att_values['wcpoa_attachment_time_type'] : '';
@@ -475,7 +475,7 @@ if((int)$wcpoa_att_download_restrict_flag === 1 && $wcpoa_att_in_my_acc === "wcp
                                     $wcpoa_order_attachment_exp_time_amount = isset($wcpoa_order_attachment_time_amount[$key]) && !empty($wcpoa_order_attachment_time_amount[$key]) ? $wcpoa_order_attachment_time_amount[$key] : '';
                                     $wcpoa_order_attachment_exp_time_type = isset($wcpoa_order_attachment_time_type[$key]) && !empty($wcpoa_order_attachment_time_type[$key]) ? $wcpoa_order_attachment_time_type[$key] : '';
                                     $wcpoa_order_attachment_time_amount_concate = $wcpoa_order_attachment_exp_time_amount." ".$wcpoa_order_attachment_exp_time_type; 
-                                    $wcpoa_attachment_time_amount_concate_single = strtotime($wcpoa_order_attachment_time_amount_concate);
+                                    $wcpoa_attachment_time_amount_concate_single = (!empty($wcpoa_order_attachment_exp_time_amount) && !empty($wcpoa_order_attachment_exp_time_type)) ? $wcpoa_order_attachment_time_amount_concate : "";
 
                                     $attachment_id = $wcpoa_attachment_file; // ID of attachment
 
@@ -934,7 +934,7 @@ if((int)$wcpoa_att_download_restrict_flag === 1 && $wcpoa_att_in_my_acc === "wcp
                                     $wcpoa_bulk_file_url_btn = $wcpoa_bulk_attachment_url;
                                 }
                                 $wcpoa_attachment_expired_date = strtotime($wcpoa_expired_dates);
-                                $wcpoa_attachment_time_amount = strtotime($wcpoa_time_amount_concate);
+                                // Time amount check is done by checking if both amount and type are set
                                 $wcpoa_order_status_val = str_replace('wcpoa-wc-', '', $wcpoa_order_status);
                                 $wcpoa_order_status_new = !empty($wcpoa_order_status_val) ? $wcpoa_order_status_val : array();
                                 $wcpoa_bulk_att_values_key[] = $att_new_key;

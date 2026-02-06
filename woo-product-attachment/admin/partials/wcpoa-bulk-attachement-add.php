@@ -95,16 +95,7 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
     <div class="wcpoa-label wcpoa-bulk-att-desc">
         <div>
             <?php esc_html_e( 'Easily manage and create bulk product attachments. Define the attachment\'s scope by specifying applicable products, categories, tags, and attributes.', 'woocommerce-product-attachment' ) ?>
-            <span class="wcpoa-description-tooltip-icon"></span>
-            <p class="wcpoa-description">
-                <?php
-                /* translators: %s: Link to documentation */
-                echo sprintf(
-                    esc_html__('%s to review the document guide.', 'woocommerce-product-attachment'),
-                    '<a href="' . esc_url('https://docs.thedotstore.com/article/378-bulk-attachment-for-woocommerce') . '" target="_blank">' . esc_html__('Click here', 'woocommerce-product-attachment') . '</a>'
-                );
-                ?>
-            </p>
+            <?php echo wp_kses( wc_help_tip( esc_html__('Learn how to configure bulk attachments for your products with different targeting options.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?>
         </div>
     </div>
     <div class="wcpoa-oprations wcpoa-pro-operations">
@@ -263,17 +254,15 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                 </div>
                                 <div class="wcpoa-field" data-name="_name" data-type="text" data-key="">
                                     <div class="wcpoa-label">
-                                        <label for="attchment_name"><?php esc_html_e('Name','woocommerce-product-attachment'); ?><span class="wcpoa-required"> *</span></label>
+                                        <label for="attchment_name"><?php esc_html_e('Name','woocommerce-product-attachment'); ?><span class="wcpoa-required"> *</span> <?php echo wp_kses( wc_help_tip( esc_html__('Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input wcpoa-att-name-parent">
                                         <input class="wcpoa-attachment-name"  type="text" name="wcpoa_attachment_name[]" placeholder="<?php esc_attr_e('Attachment', 'woocommerce-product-attachment'); ?>" value="<?php echo esc_attr($attachment_name); ?>">
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment') ?></p>
                                     </div>
                                 </div>
                                 <div class="wcpoa-field wcpoa-field-select">
                                     <div class="wcpoa-label"> 
-                                        <label for="wcpoa_attach_view"><?php esc_html_e('Status','woocommerce-product-attachment'); ?></label>
+                                        <label for="wcpoa_attach_view"><?php esc_html_e('Status','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Enable or Disable attachment using this option (This attachment will be visible to customers only if it is enabled).', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
 
                                     <div class="wcpoa-input wcpoa_attach_view">
@@ -281,24 +270,20 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                             <option name="enable" <?php echo ($wcpoa_attach_view === "enable") ? 'selected' : '';  ?> value="enable"><?php esc_html_e('Enable', 'woocommerce-product-attachment') ?></option>
                                             <option name="disable" <?php echo ($wcpoa_attach_view === "disable") ? 'selected' : '';  ?> value="disable" class=""><?php esc_html_e('Disable', 'woocommerce-product-attachment') ?></option>
                                         </select>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Enable or Disable attachment using this option (This attachment will be visible to customers only if it is enabled).','woocommerce-product-attachment'); ?></p>
                                     </div> 
                                 </div>
                                 <div class="wcpoa-field wcpoa-field-textarea " data-name="description" data-type="textarea" data-key="" data-required="1">
                                     <div class="wcpoa-label">
-                                        <label for="attchment_desc"><?php esc_html_e('Description','woocommerce-product-attachment'); ?></label>
+                                        <label for="attchment_desc"><?php esc_html_e('Description','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                         
                                     </div>
                                     <div class="wcpoa-input">
                                         <textarea class="" name="wcpoa_attachment_description[]" placeholder="<?php esc_attr_e('Enter a description', 'woocommerce-product-attachment'); ?>" rows="8"><?php echo esc_html($wcpoa_attachment_descriptions); ?></textarea>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment') ?></p>
                                     </div>
                                 </div>
                                 <div class="wcpoa-field wcpoa-field-select">
                                     <div class="wcpoa-label"> 
-                                        <label for="wcpoa_attach_type"><?php esc_html_e('Attachment Type','woocommerce-product-attachment'); ?></label>
+                                        <label for="wcpoa_attach_type"><?php esc_html_e('Attachment Type','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select the attachment type. Like Upload file / External URL', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
 
                                     <div class="wcpoa-input wcpoa_attach_type">
@@ -306,8 +291,6 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                             <option name="file_upload" <?php echo ($wcpoa_attach_type === "file_upload") ? 'selected' : '';  ?> value="file_upload"><?php esc_html_e('File Upload', 'woocommerce-product-attachment') ?></option>
                                             <option value="external_ulr"><?php esc_html_e('External URL 🔒', 'woocommerce-product-attachment') ?></option>
                                         </select>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Select the attachment type. Like Upload file / External URL','woocommerce-product-attachment'); ?></p>
                                     </div> 
                                 </div>
 
@@ -357,7 +340,7 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
 
                                 <div class="wcpoa-field">
                                     <div class="wcpoa-label">
-                                        <label for="product_page_enable"><?php esc_html_e('Open in new window', 'woocommerce-product-attachment'); ?></label>
+                                        <label for="product_page_enable"><?php esc_html_e('Open in new window', 'woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input">
                                         <select id="wcpoa_product_open_window_flag"
@@ -367,28 +350,24 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                             <option name="yes" <?php echo ($wcpoa_product_open_window_flag_val === "yes") ? 'selected' : ''; ?>
                                                     value="yes"><?php esc_html_e('Yes', 'woocommerce-product-attachment') ?></option>
                                         </select>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment') ?></p> 
                                     </div>
                                 </div>
                                 <!-- nirav code start --> 
                                 <div class="wcpoa-field wcpoa-field-select" data-type="select">
                                     <div class="wcpoa-label">
-                                        <label for="wcpoa_sel_product"><?php esc_html_e('Attachment For', 'woocommerce-product-attachment'); ?></label>
+                                        <label for="wcpoa_sel_product"><?php esc_html_e('Attachment For', 'woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('You can either assign this attachment to all products or assign it to specific products, categories, tags, or attributes as required.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input">
                                         <select name="wcpoa_is_condition[]" class="is_condition_select" >
                                             <option value="no" <?php echo $wcpoa_is_condition==='no'?"selected":'' ?>><?php esc_html_e('All Product', 'woocommerce-product-attachment'); ?></option>
                                             <option value="yes"><?php esc_html_e('Specific Product, Category, Tags, Attributes 🔒', 'woocommerce-product-attachment'); ?><span class="wcpoa-pro-label wcpoa-pro-feature"></span></option>
                                         </select>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('You can either assign this attachment to all products or assign it to specific products, categories, tags, or attributes as required.', 'woocommerce-product-attachment') ?></p>
                                     </div>
                                 </div> 
                                 <div class="wcpoa-field">
                                     <div class="wcpoa-label">
                                     <label for="product_page_enable">
-                                        <?php esc_html_e('Attachment Visibility Pages','woocommerce-product-attachment'); ?></label>
+                                        <?php esc_html_e('Attachment Visibility Pages','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select where you want to showcase the attachment - Product Page, Order Page, or Both.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input">
                                         <select id="wcpoa_product_page_enable" name="wcpoa_att_visibility[]">
@@ -396,13 +375,11 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                             <option name="product_details_page" <?php echo ($wcpoa_visibility === "product_details_page") ? 'selected' : ''; ?> value="product_details_page"><?php esc_html_e('Product Details Page','woocommerce-product-attachment') ?></option>
                                             <option name="wcpoa_all" <?php echo ($wcpoa_visibility === "wcpoa_all") ? 'selected' : '';  ?> value="wcpoa_all"><?php esc_html_e('Both','woocommerce-product-attachment') ?></option>          
                                         </select>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Select where you want to showcase the attachment - Product Page, Order Page, or Both.','woocommerce-product-attachment'); ?></p>
                                     </div>
                                 </div>
                                 <div class="wcpoa-field">
                                     <div class="wcpoa-label">
-                                        <label for="product_page_enable"><?php esc_html_e('Show only for logged in users', 'woocommerce-product-attachment'); ?></label>
+                                        <label for="product_page_enable"><?php esc_html_e('Show only for logged in users', 'woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input">
                                         <select id="wcpoa_product_logged_in_flag"
@@ -412,8 +389,6 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                             <option name="yes" <?php echo ($wcpoa_product_logged_in_flag_val === "yes") ? 'selected' : ''; ?>
                                                     value="yes"><?php esc_html_e('Yes', 'woocommerce-product-attachment') ?></option>
                                         </select>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment') ?></p> 
                                     </div>
                                 </div>
 
@@ -459,7 +434,7 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
 
                                 <div class="wcpoa-field">
                                     <div class="wcpoa-label">
-                                        <label for="wcpoa_expired_date_enable"><?php esc_html_e('Set Expire date/time','woocommerce-product-attachment'); ?></label>
+                                        <label for="wcpoa_expired_date_enable"><?php esc_html_e('Set Expire date/time','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Set a specific date and specific time to access the attachment.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input enable_expire_date">
                                         <select name="wcpoa_expired_date_enable[]" class="enable_date_time" data-type="enable_date_<?php echo esc_attr($wcpoa_attachments_id); ?>" data-key="">          
@@ -467,33 +442,27 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                             <option name="yes" <?php  echo ($wcpoa_product_date_enable === "yes") ? 'selected' : ''; ?> value="yes"><?php esc_html_e('Specific Date','woocommerce-product-attachment') ?></option>
                                             <option value="time_amount"><?php esc_html_e('Selected time period after purchase 🔒', 'woocommerce-product-attachment'); ?></option>
                                         </select>
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Set a specific date and specific time to access the attachment.','woocommerce-product-attachment'); ?></p>
                                     </div>
                                 </div>
                                     <?php $is_date=$wcpoa_product_date_enable!=='yes'?'none':''; ?>   
                                     <div style="display:<?php  echo esc_attr($is_date)  ?>"class="wcpoa-field enable_date enable_date_<?php echo esc_attr($wcpoa_attachments_id); ?> wcpoa-field-date-picker" data-name="date" data-type="date_picker" data-key="" data-required="1" style=''>
                                     <div class="wcpoa-label">
-                                        <label for="wcpoa_expired_date"><?php esc_html_e('Specific Date','woocommerce-product-attachment'); ?></label>
+                                        <label for="wcpoa_expired_date"><?php esc_html_e('Specific Date','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input">
                                         <div class="wcpoa-date-picker wcpoa-input-wrap" data-date_format="yy/mm/dd">
                                             
                                             <input name="wcpoa_expired_date[]" class="input wcpoa-php-date-picker" placeholder="<?php echo esc_attr('yy/mm/dd'); ?>" autocomplete="off" value="<?php echo esc_attr(($wcpoa_product_date_enable === "yes") ? $wcpoa_expired_dates : ''); ?>" type="text">
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )','woocommerce-product-attachment') ?></p>
                                         </div>
                                     </div>
 
                                 </div>
                                     <?php $is_time=$wcpoa_product_date_enable!=='time_amount'?'none':''; ?> <div class="wcpoa-field enable_time" style='display:<?php  echo esc_attr($is_time)  ?>'>
                                     <div class="wcpoa-label">
-                                        <label for="attchment_time_amount"><?php esc_html_e('Time Period','woocommerce-product-attachment'); ?></label>
+                                        <label for="attchment_time_amount"><?php esc_html_e('Time Period','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Set time period, After that Attachment will not accessible.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                                     </div>
                                     <div class="wcpoa-input">
                                         <input class="wcpoa-attachment-_time-amount" type="number" name="wcpoa_attachment_time_amount[]" placeholder="<?php echo esc_attr('2'); ?>" value="<?php echo esc_attr($wcpoa_att_time_amount); ?>" >
-                                        <span class="wcpoa-description-tooltip-icon"></span>
-                                        <p class="wcpoa-description"><?php esc_html_e('Set time period, After that Attachment will not accessible.','woocommerce-product-attachment') ?></p>
                                     </div>
                                 </div>
                                 <?php echo wp_kses($after_fields,$this->allowed_html_tags()); ?>
@@ -539,29 +508,25 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                     </div>
                     <div class="wcpoa-field wcpoa-field-text wcpoa-field-id" data-name="id" data-type="text" data-key="">
                         <div class="wcpoa-label">
-                            <label for=""><?php esc_html_e('Id','woocommerce-product-attachment') ?> </label>
+                            <label for=""><?php esc_html_e('Id','woocommerce-product-attachment') ?> <?php echo wp_kses( wc_help_tip( esc_html__('Attachments Id used to identify each product attachment.This value is automatically generated.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input">
                             <div class="wcpoa-input-wrap">
                                 <input readonly="" class="wcpoa_attachments_id" name="wcpoa_attachments_id[]" value="" placeholder="" type="text">
-                                <span class="wcpoa-description-tooltip-icon"></span>
-                                <p class="wcpoa-description"><?php esc_html_e('Attachments Id used to identify each product attachment.This value is automatically generated.','woocommerce-product-attachment') ?></p>
                             </div>
                         </div>
                     </div>
                     <div class="wcpoa-field" data-name="_name" data-type="text" data-key="">
                         <div class="wcpoa-label">
-                            <label for="attchment_name"><?php esc_html_e('Name','woocommerce-product-attachment'); ?><span class="wcpoa-required"> *</span></label>
+                            <label for="attchment_name"><?php esc_html_e('Name','woocommerce-product-attachment'); ?><span class="wcpoa-required"> *</span> <?php echo wp_kses( wc_help_tip( esc_html__('Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input wcpoa-att-name-parent">
                             <input class="wcpoa-attachment-name" type="text" name="wcpoa_attachment_name[]" placeholder="<?php esc_attr_e('Attachment', 'woocommerce-product-attachment'); ?>" value="" >
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment') ?></p>
                         </div>
                     </div>
                     <div class="wcpoa-field wcpoa-field-select">
                         <div class="wcpoa-label"> 
-                            <label for="wcpoa_attach_view"><?php esc_html_e('Status','woocommerce-product-attachment'); ?></label>
+                            <label for="wcpoa_attach_view"><?php esc_html_e('Status','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Enable or Disable attachment using this option (This attachment will be visible to customers only if it is enabled).', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
 
                         <div class="wcpoa-input wcpoa_attach_view">
@@ -569,23 +534,19 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                 <option name="enable"  value="enable"><?php esc_html_e('Enable', 'woocommerce-product-attachment') ?></option>
                                 <option name="disable"  value="disable" class=""><?php esc_html_e('Disable', 'woocommerce-product-attachment') ?></option>
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Enable or Disable attachment using this option (This attachment will be visible to customers only if it is enabled).','woocommerce-product-attachment'); ?></p>
                         </div> 
                     </div>
                     <div class="wcpoa-field wcpoa-field-textarea " data-name="description" data-type="textarea" data-key="" data-required="1">
                         <div class="wcpoa-label">
-                            <label for="attchment_desc"><?php esc_html_e('Description','woocommerce-product-attachment'); ?></label>
+                            <label for="attchment_desc"><?php esc_html_e('Description','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input">
                             <textarea class="" name="wcpoa_attachment_description[]" placeholder="<?php esc_attr_e('Enter a description', 'woocommerce-product-attachment'); ?>" rows="8"></textarea>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment') ?></p>
                         </div>
                     </div>
                     <div class="wcpoa-field wcpoa-field-select">
                         <div class="wcpoa-label">
-                            <label for="wcpoa_attach_type"><?php esc_html_e('Attachment Type','woocommerce-product-attachment'); ?></label>
+                            <label for="wcpoa_attach_type"><?php esc_html_e('Attachment Type','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select the attachment type. Like Upload file / External URL', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
 
                         <div class="wcpoa-input wcpoa_attach_type">
@@ -593,8 +554,6 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                 <option name="file_upload"  value="file_upload"><?php esc_html_e('File Upload', 'woocommerce-product-attachment') ?></option>
                                 <option value="external_ulr"><?php esc_html_e('External URL 🔒', 'woocommerce-product-attachment') ?></option>
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Select the attachment type. Like Upload file / External URL','woocommerce-product-attachment'); ?></p>
                         </div>
                     </div>
                     <div class="wcpoa-field file_upload wcpoa-field-file required" data-name="file" data-type="file" data-key="" data-required="1">
@@ -641,7 +600,7 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                     </div>
                     <div class="wcpoa-field">
                         <div class="wcpoa-label">
-                            <label for="product_page_enable"><?php esc_html_e('Open in new window', 'woocommerce-product-attachment'); ?></label>
+                            <label for="product_page_enable"><?php esc_html_e('Open in new window', 'woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input">
                             <select id="wcpoa_product_open_window_flag"
@@ -649,29 +608,25 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                     <option name="no" value="no" selected><?php esc_html_e('No', 'woocommerce-product-attachment') ?></option>
                                     <option name="yes" value="yes"><?php esc_html_e('Yes', 'woocommerce-product-attachment') ?></option>
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment') ?></p> 
                         </div>
                     </div>
                     <!-- nirav code start --> 
                     <div class="wcpoa-field wcpoa-field-select" data-type="select">
                         <div class="wcpoa-label">
-                            <label for="wcpoa_sel_product"><?php esc_html_e('Attachment For ', 'woocommerce-product-attachment'); ?></label>
+                            <label for="wcpoa_sel_product"><?php esc_html_e('Attachment For ', 'woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Assign attachment for All products. Also, you can assign attachment for specific Product, Specific Category or a specific tags', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input">
                             <select name="wcpoa_is_condition[]" class="is_condition_select" >
                                 <option value="no" ><?php esc_html_e('All Product ', 'woocommerce-product-attachment'); ?></option>
                                 <option value="yes"><?php esc_html_e('Specific Product, Category, Tags, Attributes 🔒', 'woocommerce-product-attachment'); ?><span class="wcpoa-pro-label wcpoa-pro-feature"></span></option>
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Assign attachment for All products. Also, you can assign attachment for specific Product, Specific Category or a specific tags', 'woocommerce-product-attachment') ?></p>
                         </div>
                     </div> 
 
                     <div class="wcpoa-field">
                         <div class="wcpoa-label">
                         <label for="product_page_enable">
-                            <?php esc_html_e('Attachment Visibility Pages','woocommerce-product-attachment'); ?></label>
+                            <?php esc_html_e('Attachment Visibility Pages','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select where you want to showcase the attachment - Product Page, Order Page, or Both.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input">
                             <select id="wcpoa_product_page_enable" name="wcpoa_att_visibility[]">
@@ -679,13 +634,11 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                 <option name="product_details_page"  value="product_details_page"><?php esc_html_e('Product Details Page','woocommerce-product-attachment') ?></option>
                                 <option name="wcpoa_all"  value="wcpoa_all"><?php esc_html_e('Both','woocommerce-product-attachment') ?></option>                                          
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Select where you want to showcase the attachment - Product Page, Order Page, or Both.','woocommerce-product-attachment'); ?></p>
                         </div>
                     </div>
                     <div class="wcpoa-field">
                         <div class="wcpoa-label">
-                            <label for="product_page_enable"><?php esc_html_e('Show only for logged in users', 'woocommerce-product-attachment'); ?></label>
+                            <label for="product_page_enable"><?php esc_html_e('Show only for logged in users', 'woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input">
                             <select id="wcpoa_product_logged_in_flag"
@@ -693,8 +646,6 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                 <option name="no" value="no"><?php esc_html_e('No','woocommerce-product-attachment') ?></option>
                                 <option name="yes" value="yes"><?php esc_html_e('Yes','woocommerce-product-attachment') ?></option>
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment') ?></p> 
                         </div>
                     </div>
                     <div class="wcpoa-field">
@@ -739,7 +690,7 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
 
                     <div class="wcpoa-field">
                         <div class="wcpoa-label">
-                            <label for="wcpoa_expired_date_enable"><?php esc_html_e('Set Expire date/time','woocommerce-product-attachment'); ?></label>
+                            <label for="wcpoa_expired_date_enable"><?php esc_html_e('Set Expire date/time','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('Set a specific date and specific time to access the attachment.', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input enable_expire_date">
                             <select name="wcpoa_expired_date_enable[]" class="enable_date_time" data-type="enable_date_<?php echo esc_attr($wcpoa_attachments_id); ?>" data-key="">                       
@@ -747,21 +698,17 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                                 <option name="yes"  value="yes"><?php esc_html_e('Specific Date','woocommerce-product-attachment') ?></option>
                                 <option value="time_amount"><?php esc_html_e('Selected time period after purchase 🔒','woocommerce-product-attachment') ?></option>
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description"><?php esc_html_e('Set a specific date and specific time to access the attachment.','woocommerce-product-attachment'); ?></p>
 
                         </div>
                     </div>
 
                     <div style="display: none;" class="wcpoa-field enable_date enable_date_<?php echo esc_attr($wcpoa_attachments_id); ?> wcpoa-field-date-picker" data-name="date" data-type="date_picker" data-key="" data-required="1" style=''>
                         <div class="wcpoa-label">
-                            <label for="wcpoa_expired_date"><?php esc_html_e('Specific Date','woocommerce-product-attachment'); ?></label>
+                            <label for="wcpoa_expired_date"><?php esc_html_e('Specific Date','woocommerce-product-attachment'); ?> <?php echo wp_kses( wc_help_tip( esc_html__('If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )', 'woocommerce-product-attachment') ), array( 'span' => array( 'class' => array(), 'data-tip' => array() ) ) ); ?></label>
                         </div>
                         <div class="wcpoa-input">
                             <div class="wcpoa-date-picker wcpoa-input-wrap" data-date_format="yy/mm/dd">
                                 <input class="input wcpoa-php-date-picker" name="wcpoa_expired_date[]" placeholder="<?php echo esc_attr('yy/mm/dd'); ?>" type="text" autocomplete="off">
-                                <span class="wcpoa-description-tooltip-icon"></span>
-                                <p class="wcpoa-description"><?php esc_html_e('If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )','woocommerce-product-attachment') ?></p>
                             </div>
                         </div>
 

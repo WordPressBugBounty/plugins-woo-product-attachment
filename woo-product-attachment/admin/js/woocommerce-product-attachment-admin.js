@@ -316,6 +316,12 @@
             jQuery(this).toggleClass('active');
             jQuery(this).nextAll('.wcpoa-general-input').slideToggle();
         });
+        jQuery( '.woocommerce-help-tip, .tips, .help_tip' ).tipTip({
+            'attribute': 'data-tip',
+            'fadeIn': 50,
+            'fadeOut': 50,
+            'delay': 200
+        });
     });
     
     /** Script for Freemius upgrade popup */

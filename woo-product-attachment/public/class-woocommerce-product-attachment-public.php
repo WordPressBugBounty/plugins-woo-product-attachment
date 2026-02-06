@@ -86,6 +86,37 @@ class Woocommerce_Product_Attachment_Public {
      * @since 1.0.0
      */
     public function wcpoa_enqueue_scripts() {
+        /**
+         * This function is provided for demonstration purposes only.
+         *
+         * An instance of this class should be passed to the run() function
+         * defined in Woocommerce_Product_Attachment_Loader as all of the hooks are defined
+         * in that particular class.
+         *
+         * The Woocommerce_Product_Attachment_Loader will then create the relationship
+         * between the defined hooks and the functions defined in this
+         * class.
+         */
+        // Only load scripts on relevant pages: product pages, checkout, cart, order pages
+        $load_script = false;
+        if ( is_product() || is_shop() || is_product_category() || is_product_tag() ) {
+            // Product pages
+            $load_script = true;
+        } elseif ( is_checkout() || is_cart() ) {
+            // Checkout and cart pages
+            $load_script = true;
+        } elseif ( is_account_page() ) {
+            // My account page (includes order pages)
+            $load_script = true;
+        } elseif ( is_wc_endpoint_url( 'order-received' ) || is_wc_endpoint_url( 'view-order' ) ) {
+            // Order received and view order pages
+            $load_script = true;
+        }
+        $load_script = apply_filters( 'wcpoa_should_load_public_scripts', $load_script );
+        // Allow filter for custom pages
+        if ( !$load_script ) {
+            return;
+        }
         wp_enqueue_script(
             $this->plugin_name,
             plugin_dir_url( __FILE__ ) . 'js/woocommerce-product-attachment-public.js',
@@ -233,6 +264,9 @@ class Woocommerce_Product_Attachment_Public {
         }
         $wcpoa_bulk_att_match = '';
         $youtube_video_only = '';
+        $without_youtube_video_attachment = '';
+        $showcase_video_tab = '';
+        $wcpoa_youtube_default_showcase_flag = get_option( 'wcpoa_youtube_default_showcase_flag', 'no' );
         if ( !$_product->is_type( 'grouped' ) ) {
             /** Get all the main products attachments */
             if ( isset( $youtube_video_only ) && 'Yes' === $youtube_video_only ) {
@@ -289,6 +323,9 @@ class Woocommerce_Product_Attachment_Public {
             // apply for admin user roles which is set by admin side
         }
         $wcpoa_bulk_att_data = get_option( 'wcpoa_bulk_attachment_data' );
+        // Initialize variables that might be used later
+        $terms = array();
+        $assigned_cat_list = array();
         $wcpoa_bulk_att_values = array();
         $wcpoa_bulk_att_values_key = array();
         if ( (int) $wcpoa_att_download_restrict_flag === 1 ) {
@@ -1045,7 +1082,6 @@ class Woocommerce_Product_Attachment_Public {
                                         $wcpoa_attachment_time_amount = ( isset( $wcpoa_bulk_att_values['wcpoa_attachment_time_amount'] ) && !empty( $wcpoa_bulk_att_values['wcpoa_attachment_time_amount'] ) ? $wcpoa_bulk_att_values['wcpoa_attachment_time_amount'] : '' );
                                         $wcpoa_attachment_time_type = ( isset( $wcpoa_bulk_att_values['wcpoa_attachment_time_type'] ) && !empty( $wcpoa_bulk_att_values['wcpoa_attachment_time_type'] ) ? $wcpoa_bulk_att_values['wcpoa_attachment_time_type'] : '' );
                                         $wcpoa_time_amount_concate = $wcpoa_attachment_time_amount . " " . $wcpoa_attachment_time_type;
-                                        $wcpoa_attachment_time_amount = strtotime( $wcpoa_time_amount_concate );
                                         $wcpoa_bulk_att_values_key[] = $att_new_key;
                                         $wcpoa_order_bulk_status = ( isset( $wcpoa_bulk_att_values['wcpoa_order_status'] ) && !empty( $wcpoa_bulk_att_values['wcpoa_order_status'] ) ? $wcpoa_bulk_att_values['wcpoa_order_status'] : '' );
                                         $wcpoa_order_status_new = str_replace( 'wcpoa-wc-', '', $wcpoa_order_bulk_status );
@@ -1173,6 +1209,7 @@ class Woocommerce_Product_Attachment_Public {
                                 $wcpoa_expired_dates = ( isset( $wcpoa_bulk_att_values['wcpoa_expired_date'] ) && !empty( $wcpoa_bulk_att_values['wcpoa_expired_date'] ) ? $wcpoa_bulk_att_values['wcpoa_expired_date'] : '' );
                                 $wcpoa_order_status = ( isset( $wcpoa_bulk_att_values['wcpoa_order_status'] ) && !empty( $wcpoa_bulk_att_values['wcpoa_order_status'] ) ? $wcpoa_bulk_att_values['wcpoa_order_status'] : '' );
                                 $wcpoa_attachment_expired_date = strtotime( $wcpoa_expired_dates );
+                                // Time amount check is done by checking if both amount and type are set
                                 $wcpoa_order_status_val = str_replace( 'wcpoa-wc-', '', $wcpoa_order_status );
                                 $wcpoa_order_status_new = ( !empty( $wcpoa_order_status_val ) ? $wcpoa_order_status_val : array() );
                                 $wcpoa_bulk_att_values_key[] = $att_new_key;
@@ -1316,6 +1353,25 @@ class Woocommerce_Product_Attachment_Public {
             ?>" onclick="openAttachment()" id="wcpoa-order-file-attachment-opn">
                     <input type="hidden" name="wcpoa_order_file_attachment_ids" id="wcpoa_order_file_attachment_ids">
                     
+                    <div class="wcpoa-checkout-attachment-info" style="margin-top: 5px;">
+                        <div class="wcpoa-supported-formats">
+                            <small class="wcpoa-format-info">
+                                <?php 
+            esc_html_e( 'Supported formats:', 'woocommerce-product-attachment' );
+            ?>
+                                <strong><?php 
+            esc_html_e( 'PDF, DOC, DOCX, JPG, JPEG, PNG, GIF, ZIP, TXT, XLS, XLSX, PPT, MOV', 'woocommerce-product-attachment' );
+            ?></strong>
+                            </small>
+                            <br>
+                            <small class="wcpoa-size-limit">
+                                <?php 
+            $max_upload_size = wp_max_upload_size();
+            printf( esc_html__( 'Maximum file size: %s', 'woocommerce-product-attachment' ), esc_html( size_format( $max_upload_size ) ) );
+            ?>
+                            </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="wcpoa_order_attachments_items">
                     <a href="javascript:void(0)" style="display:none;" id="wcpoa-clear-aitem" onclick="wcpoa_reset_files(this)">Clear</a>

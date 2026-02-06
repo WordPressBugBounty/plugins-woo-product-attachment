@@ -30,6 +30,17 @@ if ( isset( $order_data['date_created'] ) && !empty( $order_data['date_created']
 }
 $wcpoa_att_values_product_key = array();
 $wcpoa_all_att_values_product_key = array();
+// Track all products and which ones have attachments
+$all_order_products = array();
+$products_with_attachments = array();
+// Collect all products in the order
+if ( !empty( $items ) && is_array( $items ) ) {
+    foreach ( $items as $item_id => $item ) {
+        $product_id = $item['product_id'];
+        $product_name = $item['name'];
+        $all_order_products[$product_id] = $product_name;
+    }
+}
 $get_permalink_structure = get_permalink( $order_id );
 if ( strpos( $get_permalink_structure, "?" ) ) {
     $wcpoa_attachment_url_arg = '&';
@@ -67,6 +78,11 @@ if ( !empty( $items ) && is_array( $items ) ) {
                                 $wcpoa_expired_dates = ( isset( $wcpoa_order_attachment_expired[$key] ) && !empty( $wcpoa_order_attachment_expired[$key] ) ? $wcpoa_order_attachment_expired[$key] : '' );
                                 $attachment_id = $wcpoa_attachment_file;
                                 // ID of attachment
+                                // Track that this product has attachments
+                                $current_product_id = $item['product_id'];
+                                if ( !in_array( $current_product_id, $products_with_attachments, true ) ) {
+                                    $products_with_attachments[] = $current_product_id;
+                                }
                                 echo '<table class="wcpoa_order">';
                                 echo '<tbody>';
                                 $wcpoa_attachment_expired_date = strtotime( $wcpoa_expired_dates );
@@ -178,6 +194,11 @@ if ( !empty( $items ) && is_array( $items ) ) {
                                     $wcpoa_bulk_att_match = 'yes';
                                     $wcpoa_bulk_att_key[] = $att_new_key;
                                 }
+                                // Track that this product has bulk attachments
+                                $current_product_id = $item_value['product_id'];
+                                if ( !in_array( $current_product_id, $products_with_attachments, true ) ) {
+                                    $products_with_attachments[] = $current_product_id;
+                                }
                                 if ( isset( $order_statuses ) && is_array( $order_statuses ) ) {
                                     echo '<div class="wcpoa-order-status">';
                                     foreach ( $order_statuses as $wcpoa_order_status_key => $wcpoa_order_status_bulkvalue ) {
@@ -202,4 +223,10 @@ if ( !empty( $items ) && is_array( $items ) ) {
             }
         }
     }
+}
+// Display common message when no attachments found for any products
+if ( !empty( $all_order_products ) && empty( $products_with_attachments ) ) {
+    echo '<p style="color: #666; font-style: italic; margin: 10px 0; text-align: center;">';
+    echo esc_html__( 'No attachments found for this order.', 'woocommerce-product-attachment' );
+    echo '</p>';
 }

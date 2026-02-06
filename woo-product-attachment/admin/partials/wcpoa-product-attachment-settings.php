@@ -281,12 +281,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             echo esc_attr( $wcpoa_attachments_id );
             ?>" placeholder=""
                                                     type="text">
-                                                <span class="wcpoa-description-tooltip-icon"></span>
-                                                <p class="wcpoa-description">
-                                                    <?php 
-            esc_html_e( 'Attachments Id used to identify each product attachment.This value is automatically generated.', 'woocommerce-product-attachment' );
+                                                <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'Attachments Id used to identify each product attachment.This value is automatically generated.', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -304,12 +306,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             ?>" value="<?php 
             echo esc_attr( $attachment_name );
             ?>">
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-            esc_html_e( 'Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment' );
+                                            <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="wcpoa-field wcpoa-field-textarea " data-name="description" data-type="textarea"
@@ -326,12 +330,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             ?>" rows="8"><?php 
             echo esc_html( $wcpoa_attachment_description );
             ?></textarea>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-            esc_html_e( 'You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment' );
+                                            <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="wcpoa-field wcpoa-field-select">
@@ -362,12 +368,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
                                                     </select>
                                             <?php 
             ?>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-            esc_html_e( 'Select the attachment type. Like Upload file / External URL', 'woocommerce-product-attachment' );
+                                            <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'Select the attachment type. Like Upload file / External URL', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <?php 
@@ -529,12 +537,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             esc_html_e( 'Yes', 'woocommerce-product-attachment' );
             ?></option>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-            esc_html_e( 'Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment' );
+                                            <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                            </p>
                                         </div>
                                     </div>
 
@@ -562,12 +572,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             esc_html_e( 'No', 'woocommerce-product-attachment' );
             ?></option>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-            esc_html_e( 'Select whether you want to display the attachment on the product page or not.', 'woocommerce-product-attachment' );
+                                            <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'Select whether you want to display the attachment on the product page or not.', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="wcpoa-field">
@@ -594,12 +606,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             esc_html_e( 'Yes', 'woocommerce-product-attachment' );
             ?></option>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-            esc_html_e( 'Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment' );
+                                            <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <?php 
@@ -741,12 +755,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
                                                 <?php 
             ?>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-            esc_html_e( 'Set a specific date and specific time to access the attachment.', 'woocommerce-product-attachment' );
+                                            <?php 
+            echo wp_kses( wc_help_tip( esc_html__( 'Set a specific date and specific time to access the attachment.', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <?php 
@@ -775,12 +791,14 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             }
             ?>"
                                                     type="text">
-                                                <span class="wcpoa-description-tooltip-icon"></span>
-                                                <p class="wcpoa-description">
                                                     <?php 
-            esc_html_e( 'If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )', 'woocommerce-product-attachment' );
+            echo wp_kses( wc_help_tip( esc_html__( 'If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )', 'woocommerce-product-attachment' ) ), array(
+                'span' => array(
+                    'class'    => array(),
+                    'data-tip' => array(),
+                ),
+            ) );
             ?>
-                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -865,12 +883,15 @@ foreach ( $field['value'] as $i => $row ) {
                                             <div class="wcpoa-input-wrap">
                                                 <input readonly="" class="wcpoa_attachments_id" name="wcpoa_attachments_id[]"
                                                     value="" placeholder="" type="text">
-                                                <span class="wcpoa-description-tooltip-icon"></span>
-                                                <p class="wcpoa-description">
-                                                    <?php 
-    esc_html_e( 'Attachments Id used to identify each product attachment.This value is automatically generated.', 'woocommerce-product-attachment' );
+                                                    
+                                                <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'Attachments Id used to identify each product attachment.This value is automatically generated.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -886,12 +907,15 @@ foreach ( $field['value'] as $i => $row ) {
                                             <input class="wcpoa-attachment-name" type="text" name="wcpoa_attachment_name[]" placeholder="<?php 
     esc_attr_e( 'Attachment', 'woocommerce-product-attachment' );
     ?>" value="">
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-    esc_html_e( 'Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment' );
+                                            
+                                            <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'Enter a name for the attachment. It will be displayed on the front end next to the download/view button.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="wcpoa-field wcpoa-field-textarea " data-name="description" data-type="textarea"
@@ -905,12 +929,15 @@ foreach ( $field['value'] as $i => $row ) {
                                             <textarea class="" name="wcpoa_attachment_description[]" placeholder="<?php 
     esc_attr_e( 'Enter a description', 'woocommerce-product-attachment' );
     ?>" rows="8"></textarea>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-    esc_html_e( 'You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment' );
+                                            
+                                            <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'You can type a short description of the attachment file. So customers will get details about the attachment file.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="wcpoa-field">
@@ -936,12 +963,15 @@ foreach ( $field['value'] as $i => $row ) {
                                                     </select>
                                             <?php 
     ?>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-    esc_html_e( 'Select the attachment type. Like Upload file / External URL.', 'woocommerce-product-attachment' );
+                                            
+                                            <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'Select the attachment type. Like Upload file / External URL.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="wcpoa-field wcpoa-field-file file_upload" data-name="file" data-type="file"
@@ -1035,12 +1065,15 @@ foreach ( $field['value'] as $i => $row ) {
     ?>
                                                 </option>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-    esc_html_e( 'Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment' );
+                                            
+                                            <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'Select Link Behavior: Specify whether you want the attachment link to open in a new window or the same window.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                            </p>
                                         </div>
                                     </div>
 
@@ -1062,12 +1095,15 @@ foreach ( $field['value'] as $i => $row ) {
     ?>
                                                 </option>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-    esc_html_e( 'Select whether you want to display the attachment on the product page or not.', 'woocommerce-product-attachment' );
+                                            
+                                            <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'Select whether you want to display the attachment on the product page or not.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                            </p>
                                         </div>
                                     </div>
 
@@ -1089,12 +1125,15 @@ foreach ( $field['value'] as $i => $row ) {
     ?>
                                                 </option>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-    esc_html_e( 'Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment' );
+                                            
+                                            <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'Select whether you want to display the attachment only for logged-in users or not.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <?php 
@@ -1185,12 +1224,15 @@ foreach ( $field['value'] as $i => $row ) {
                                                 <?php 
     ?>
                                             </select>
-                                            <span class="wcpoa-description-tooltip-icon"></span>
-                                            <p class="wcpoa-description">
-                                                <?php 
-    esc_html_e( 'Set a specific date and specific time to access the attachment.', 'woocommerce-product-attachment' );
+                                            
+                                            <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'Set a specific date and specific time to access the attachment.', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="wcpoa-field enable_date" data-key="" data-required="1" style='display: none'>
@@ -1205,12 +1247,15 @@ foreach ( $field['value'] as $i => $row ) {
                                                 <input class="wcpoa-php-date-picker" value="" name="wcpoa_expired_date[]" placeholder="<?php 
     echo esc_attr( 'yy/mm/dd' );
     ?>" type="text" autocomplete="off">
-                                                <span class="wcpoa-description-tooltip-icon"></span>
-                                                <p class="wcpoa-description">
-                                                    <?php 
-    esc_html_e( 'If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )', 'woocommerce-product-attachment' );
+                                                
+                                                <?php 
+    echo wp_kses( wc_help_tip( esc_html__( 'If an order is placed after the selected date, the attachments will be no longer visible for download. ( Date format: yy/mm/dd )', 'woocommerce-product-attachment' ) ), array(
+        'span' => array(
+            'class'    => array(),
+            'data-tip' => array(),
+        ),
+    ) );
     ?>
-                                                </p>
                                             </div>
                                         </div>
                                     </div>

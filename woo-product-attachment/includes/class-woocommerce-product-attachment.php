@@ -116,6 +116,10 @@ class Woocommerce_Product_Attachment {
          * side of the site.
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woocommerce-product-attachment-public.php';
+        /**
+         * The file responsible for free shortcodes of plugin
+         */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/wcpoa-attachement-shortcodes.php';
         $this->loader = new Woocommerce_Product_Attachment_Loader();
     }
 

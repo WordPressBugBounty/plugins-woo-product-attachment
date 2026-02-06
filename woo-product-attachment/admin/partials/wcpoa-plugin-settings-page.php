@@ -139,6 +139,13 @@ echo esc_url( 'https://docs.thedotstore.com/article/369-how-to-add-frontend-prod
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Frontend Product Page Tab Title', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Customize Product Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <input type="text" name="wcpoa_product_tab_name" placeholder="<?php 
@@ -146,30 +153,24 @@ echo esc_attr( 'Attachment' );
 ?>" value="<?php 
 echo esc_attr( $wcpoa_product_tname );
 ?>">
-                        <span class="wcpoa-description-tooltip-icon"></span>
-                        <p class="wcpoa-description">
-                            <?php 
-echo esc_html__( 'Customize Product Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment.', 'woocommerce-product-attachment' );
-?>
-                        </p>
                     </div>
                 </div>
                 <div class="wcpoa-general-input">
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'User Role Based Display Attachment', 'woocommerce-product-attachment' );
+echo wp_kses( wc_help_tip( esc_html__( 'Select to display product attachments to all or only to specific selected user roles.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div>
                             <?php 
 esc_html_e( 'Select user role, which you want to display an attachment. Leave unselected then apply to all.', 'woocommerce-product-attachment' );
 ?>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select to display product attachments to all or only to specific selected user roles.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                         <div class="wcpoa-name-chxbox wcpoa-user-role-base-attach">
                             <ul class="wcpoa-checkbox-list">
@@ -232,6 +233,13 @@ echo esc_url( 'https://docs.thedotstore.com/article/1076-order-attachment-settin
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Order Details Page Tab Title', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Customize Order Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <input type="text" name="wcpoa_order_tab_name" placeholder="<?php 
@@ -239,18 +247,19 @@ echo esc_attr( 'Attachment' );
 ?>" value="<?php 
 echo esc_attr( $wcpoa_order_tname );
 ?>">
-                        <span class="wcpoa-description-tooltip-icon"></span>
-                        <p class="wcpoa-description">
-                            <?php 
-echo esc_html__( 'Customize Order Page Tab Title: Displayed on the front end. All attachments will showcase under this tab. Default tab name: Attachment.', 'woocommerce-product-attachment' );
-?>
-                        </p>
                     </div>
                 </div>
                 <div class="wcpoa-general-input">
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Show Attachments Button on Orders Listing Page', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Choose to enable or disable the attachments listing on the order details page.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -266,12 +275,6 @@ echo ( $wcpoa_att_btn_in_order_list === "wcpoa_att_btn_in_order_list_disable" ? 
                             <label for="wcpoa_att_btn_in_order_list_disable"><?php 
 esc_html_e( 'Disable', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Choose to enable or disable the attachments listing on the order details page.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -305,6 +308,13 @@ echo esc_html__( 'Select whether to display attachments in order emails or not.'
                     <label class="wcpoa-general-input-title wcpoa-pro-feature"><?php 
 esc_html_e( 'Attachment List Position on Order Details Page', 'woocommerce-product-attachment' );
 echo wp_kses( '<span class="wcpoa-pro-label"></span>', $this->allowed_html_tags() );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Select a position for attachment list on order details page.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -316,12 +326,6 @@ esc_html_e( 'After Order', 'woocommerce-product-attachment' );
                             <label for="wcpoa_att_btn_position_before" class="wcpoa-pro-feature"><?php 
 esc_html_e( 'Before Order', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select a position for attachment list on order details page.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -335,13 +339,14 @@ echo wp_kses( '<span class="wcpoa-pro-label"></span>', $this->allowed_html_tags(
                         <div>
                             <?php 
 esc_html_e( 'Select order status for which the attachment(s) will be visible. Leave unselected to apply to all.', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Display attachment on specific selected order status emails.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Display attachment on specific selected order status emails.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                         <div class="wcpoa-name-chxbox">
                             <ul class="wcpoa-checkbox-list">
@@ -373,6 +378,13 @@ esc_html_e( 'Processing', 'woocommerce-product-attachment' );
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Admin Order Details Page Tab Title', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Customize the Admin Order Details Page Tab Title: Displayed on the admin side. Default tab name: Attachment.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value text-title">
                         <input type="text" name="wcpoa_admin_order_tab_name" placeholder="<?php 
@@ -380,12 +392,6 @@ echo esc_attr( 'Attachment' );
 ?>" value="<?php 
 echo esc_attr( $wcpoa_admin_order_tname );
 ?>">
-                        <span class="wcpoa-description-tooltip-icon"></span>
-                        <p class="wcpoa-description">
-                            <?php 
-echo esc_html__( 'Customize the Admin Order Details Page Tab Title: Displayed on the admin side. Default tab name: Attachment.', 'woocommerce-product-attachment' );
-?>
-                        </p>
                     </div>
                 </div>
                 <?php 
@@ -403,6 +409,13 @@ echo esc_url( 'https://docs.thedotstore.com/article/1077-managing-attachments-in
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Show Attachments in My Account Page', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Select whether to display attachments in My Account page or not.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -418,12 +431,6 @@ echo ( $wcpoa_att_in_my_acc === "wcpoa_att_in_my_acc_disable" ? 'checked' : '' )
                             <label for="wcpoa_att_in_my_acc_disable"><?php 
 esc_html_e( 'Disable', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select whether to display attachments in My Account page or not.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -431,6 +438,13 @@ echo esc_html__( 'Select whether to display attachments in My Account page or no
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Show Attachments in Thank You Page', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Select whether to display attachments in Thank You page or not.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -446,12 +460,6 @@ echo ( $wcpoa_att_in_thankyou === "wcpoa_att_in_thankyou_disable" ? 'checked' : 
                             <label for="wcpoa_att_in_thankyou_disable"><?php 
 esc_html_e( 'Disable', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select whether to display attachments in Thank You page or not.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -462,6 +470,13 @@ echo esc_html__( 'Select whether to display attachments in Thank You page or not
                         class="wcpoa-general-input-title wcpoa-pro-feature"><?php 
 esc_html_e( 'Show Attachments in Download Tab', 'woocommerce-product-attachment' );
 echo wp_kses( '<span class="wcpoa-pro-label"></span>', $this->allowed_html_tags() );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Select whether to display attachments in Download tab or not.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -475,12 +490,6 @@ esc_html_e( 'Enable', 'woocommerce-product-attachment' );
                             <label for="wcpoa_att_btn_in_order_down_tab_disable" class="wcpoa-pro-feature"><?php 
 esc_html_e( 'Disable', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select whether to display attachments in Download tab or not.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                     </div>
                 </div><?php 
@@ -498,6 +507,13 @@ echo esc_url( 'https://docs.thedotstore.com/article/1080-attachment-display-and-
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Show Attachments Expire Date', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Select whether to show attachment expiry date or not.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -513,12 +529,6 @@ echo ( $wcpoa_expired_date_tlabel === "no" ? 'checked' : '' );
                             <label for="wcpoa_expired_date_label_no"><?php 
 esc_html_e( 'No', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select whether to show attachment expiry date or not.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -528,6 +538,13 @@ echo esc_html__( 'Select whether to show attachment expiry date or not.', 'wooco
                         <label class="wcpoa-general-input-title wcpoa-pro-feature"><?php 
 esc_html_e( 'Show Attachments File Icon / Download Button', 'woocommerce-product-attachment' );
 echo wp_kses( '<span class="wcpoa-pro-label"></span>', $this->allowed_html_tags() );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'If no file icon selected then it will show the default attachment type.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                         <div class="wcpoa-general-input-value">
                             <div class="wcpoa-name-radio-box">
@@ -539,12 +556,6 @@ esc_html_e( 'Upload Icon', 'woocommerce-product-attachment' );
                                 <label for="wcpoa_att_btn" class="wcpoa-pro-feature"><?php 
 esc_html_e( 'Default Button', 'woocommerce-product-attachment' );
 ?></label>
-                                <span class="wcpoa-description-tooltip-icon"></span>
-                                <p class="wcpoa-description">
-                                    <?php 
-echo esc_html__( 'If no file icon selected then it will show the default attachment type.', 'woocommerce-product-attachment' );
-?>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -553,6 +564,13 @@ echo esc_html__( 'If no file icon selected then it will show the default attachm
                 <div class="wcpoa-general-input">
                     <label class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Attachments Action', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Set attachments action as download or view in browser.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -568,12 +586,6 @@ echo ( $wcpoa_is_viewable === "yes" ? 'checked' : '' );
                             <label for="wcpoa_is_viewable_yes"><?php 
 esc_html_e( 'View', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Set attachments action as download or view in browser.', 'woocommerce-product-attachment' );
-?>
-                            </p>
                         </div>
 
                     </div>
@@ -582,6 +594,13 @@ echo esc_html__( 'Set attachments action as download or view in browser.', 'wooc
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Download Attachment Option', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Select an option/type to download the product attachments.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-select-box text-title">
@@ -602,12 +621,6 @@ echo ( $wcpoa_product_download_type === "download_by_both" ? 'selected' : '' );
 esc_html_e( 'Both', 'woocommerce-product-attachment' );
 ?></option>
                             </select>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select an option/type to download the product attachments.', 'woocommerce-product-attachment' );
-?> 
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -625,6 +638,13 @@ echo esc_url( 'https://docs.thedotstore.com/article/1078-global-default-attachme
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Set product attachment tab default selected', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Enable the attachment tab to be selected by default in the first position on the product page.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -640,12 +660,6 @@ echo ( $wcpoa_default_tab_selected_flag === "no" ? 'checked' : '' );
                             <label for="wcpoa_default_tab_no"><?php 
 esc_html_e( 'No', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Enable the attachment tab to be selected by default in the first position on the product page.', 'woocommerce-product-attachment' );
-?> 
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -654,6 +668,13 @@ echo esc_html__( 'Enable the attachment tab to be selected by default in the fir
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Show attachments with size', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Select whether to display size of the attached file or not.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <div class="wcpoa-name-radio-box">
@@ -669,12 +690,6 @@ echo ( $wcpoa_show_attachment_size_flag === "no" ? 'checked' : '' );
                             <label for="wcpoa_show_att_size_no"><?php 
 esc_html_e( 'No', 'woocommerce-product-attachment' );
 ?></label>
-                            <span class="wcpoa-description-tooltip-icon"></span>
-                            <p class="wcpoa-description">
-                                <?php 
-echo esc_html__( 'Select whether to display size of the attached file or not.', 'woocommerce-product-attachment' );
-?> 
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -695,6 +710,13 @@ echo esc_url( 'https://docs.thedotstore.com/article/399-how-to-customize-style-t
                     <label
                         class="wcpoa-general-input-title"><?php 
 esc_html_e( 'Add custom css', 'woocommerce-product-attachment' );
+?> <?php 
+echo wp_kses( wc_help_tip( esc_html__( 'Add your custom css for our product attachment section.', 'woocommerce-product-attachment' ) ), array(
+    'span' => array(
+        'class'    => array(),
+        'data-tip' => array(),
+    ),
+) );
 ?></label>
                     <div class="wcpoa-general-input-value">
                         <textarea name="attachment_custom_style" id="attachment_custom_style" cols="80" rows="5" placeholder=".woocommerce-Tabs-panel--wcpoa_product_tab .wcpoa_attachment_name{}
@@ -702,12 +724,6 @@ esc_html_e( 'Add custom css', 'woocommerce-product-attachment' );
         .woocommerce-Tabs-panel--wcpoa_product_tab a.wcpoa_attachmentbtn {}"><?php 
 echo esc_html( $attachment_custom_style );
 ?></textarea>
-                        <span class="wcpoa-description-tooltip-icon"></span>
-                        <p class="wcpoa-description">
-                            <?php 
-echo esc_html__( 'Add your custom css for our product attachment section.', 'woocommerce-product-attachment' );
-?>
-                        </p>
                     </div>
                 </div>
             </div>

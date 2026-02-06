@@ -200,6 +200,10 @@ li#toplevel_page_woocommerce_product_attachment_pro{display:none;}
 .wcpoa-in-pro-button .button-primary{background:#f9f9f9;border-color:#ccd0d4;color:#b3b6b9;text-decoration:none;text-shadow:none;}
 .wcpoa-in-pro-button .button-primary:hover{background:#f9f9f9;border-color:#ccd0d4;color:#b3b6b9;text-decoration:none;text-shadow:none;}
 .wcpoa-notice{margin:10px 20px 0 0;}
+.wcpoa-general-setting label {position: relative;}
+.wcpoa-general-setting label > span.woocommerce-help-tip {position: absolute;right: 0;top: 50%;transform: translateY(-50%);}
+.wcpoa-bulk-attach-main table.wcpoa-table.wcpoa_bulk_table label {position: relative;}
+.wcpoa-bulk-attach-main table.wcpoa-table.wcpoa_bulk_table label span.woocommerce-help-tip {position: absolute;right: -6px;top: 58%;transform: translateY(-50%);}
 
 /* Admin order meta for attachement */
 .wcpoa_image_text_wrap:focus{box-shadow:none;}

@@ -200,6 +200,11 @@ class Woocommerce_Product_Attachment_Admin {
                 $this->version,
                 false
             );
+            // Enqueue WooCommerce admin scripts for tooltips
+            if ( function_exists( 'wc_enqueue_js' ) ) {
+                wp_enqueue_style( 'woocommerce_admin_styles' );
+                wp_enqueue_script( 'jquery-tiptip' );
+            }
             wp_localize_script( $this->plugin_name, 'wcpoa_vars', array(
                 'ajaxurl'                 => admin_url( 'admin-ajax.php' ),
                 'wcpoa_nonce'             => wp_create_nonce( 'ajax_verification' ),
@@ -726,7 +731,15 @@ class Woocommerce_Product_Attachment_Admin {
         } else {
             $order_id = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS );
         }
-        $wcpoa_all_ids = get_post_meta( $order_id, '_wcpoa_checkout_attachment_ids', true );
+        $wcpoa_all_ids = '';
+        if ( class_exists( 'Automattic\\WooCommerce\\Utilities\\OrderUtil' ) && OrderUtil::custom_orders_table_usage_is_enabled() ) {
+            $_order = wc_get_order( $order_id );
+            if ( $_order && is_object( $_order ) ) {
+                $wcpoa_all_ids = $_order->get_meta( '_wcpoa_checkout_attachment_ids', true );
+            }
+        } else {
+            $wcpoa_all_ids = get_post_meta( $order_id, '_wcpoa_checkout_attachment_ids', true );
+        }
         $wcpoa_meta_box = '';
         $wcpoa_meta_box .= '<div id="wcpoa_checkout_attach">';
         if ( isset( $wcpoa_all_ids ) && !empty( $wcpoa_all_ids ) ) {
@@ -736,12 +749,21 @@ class Woocommerce_Product_Attachment_Admin {
                 $media_upload_date = get_the_date( '', $id );
                 $wcpoa_meta_box .= '<div>';
                 $wcpoa_meta_box .= '<a href="' . wp_get_attachment_url( $id ) . '" target="_blank" class="wcpoa_image_text_wrap">';
-                $wcpoa_meta_box .= wp_get_attachment_image( $id, 'thumbnail' );
+                $attachment_image = wp_get_attachment_image( $id, 'thumbnail' );
+                if ( empty( $attachment_image ) ) {
+                    // Use WordPress default attachment icon if no thumbnail available
+                    $attachment_image = wp_mime_type_icon( $id );
+                    $wcpoa_meta_box .= '<img src="' . esc_url( $attachment_image ) . '" alt="' . esc_attr( $media_name ) . '" style="max-width: 150px; max-height: 150px;" />';
+                } else {
+                    $wcpoa_meta_box .= $attachment_image;
+                }
                 $wcpoa_meta_box .= '<h4>' . esc_html( $media_name ) . '</h4>';
                 $wcpoa_meta_box .= '</a>';
                 $wcpoa_meta_box .= '<p>' . esc_html( $media_upload_date ) . '</p><hr>';
                 $wcpoa_meta_box .= '</div>';
             }
+        } else {
+            $wcpoa_meta_box .= '<p>' . esc_html__( 'No attachments found.', 'woocommerce-product-attachment' ) . '</p>';
         }
         $wcpoa_meta_box .= '</div>';
         echo wp_kses( $wcpoa_meta_box, $this->allowed_html_tags() );
@@ -758,6 +780,10 @@ class Woocommerce_Product_Attachment_Admin {
             $order_id = $post->ID;
         } else {
             $order_id = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS );
+        }
+        if ( empty( $order_id ) ) {
+            echo esc_html__( 'Save order to add attachment', 'woocommerce-product-attachment' );
+            return;
         }
         $wcpoa_all_ids = '';
         if ( class_exists( 'Automattic\\WooCommerce\\Utilities\\OrderUtil' ) && OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -779,7 +805,14 @@ class Woocommerce_Product_Attachment_Admin {
                 $media_upload_date = get_the_date( '', $id );
                 $wcpoa_meta_box .= '<div>';
                 $wcpoa_meta_box .= '<a href="' . wp_get_attachment_url( $id ) . '" target="_blank" class="wcpoa_image_text_wrap">';
-                $wcpoa_meta_box .= wp_get_attachment_image( $id, 'thumbnail' );
+                $attachment_image = wp_get_attachment_image( $id, 'thumbnail' );
+                if ( empty( $attachment_image ) ) {
+                    // Use WordPress default attachment icon if no thumbnail available
+                    $attachment_image = wp_mime_type_icon( $id );
+                    $wcpoa_meta_box .= '<img src="' . esc_url( $attachment_image ) . '" alt="' . esc_attr( $media_name ) . '" style="max-width: 150px; max-height: 150px;" />';
+                } else {
+                    $wcpoa_meta_box .= $attachment_image;
+                }
                 $wcpoa_meta_box .= '<h4>' . esc_html( $media_name ) . '</h4>';
                 $wcpoa_meta_box .= '</a>';
                 $wcpoa_meta_box .= '<p>' . esc_html( $media_upload_date ) . ' - <a data-id="' . esc_attr( $id ) . '" class="wcpoa_remove_attach" href="#">Remove</a></p><hr>';
@@ -904,16 +937,23 @@ class Woocommerce_Product_Attachment_Admin {
                             <div class="wcpoa-oprations">
                                 <label class="wcpoa-general-input-title"><strong><?php 
         esc_html_e( 'Import Attachments', 'woocommerce-product-attachment' );
-        ?></strong></label>
-                                <span class="wcpoa-description-tooltip-icon"></span>
+        ?></strong> <?php 
+        echo wp_kses_post( wc_help_tip( esc_html__( 'Import bulk product attachments from a CSV file with predefined format.', 'woocommerce-product-attachment' ) ) );
+        ?></label>
                                 <?php 
         if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
             ?><span class="wcpoa-pro-label wcpoa-pro-feature"></span><?php 
         }
         ?>
-                                <p class="wcpoa-description"><?php 
-        echo sprintf( esc_html__( '%1$s to review the document guide and download a sample CSV file.', 'woocommerce-product-attachment' ), '<a href="' . esc_url( 'https://docs.thedotstore.com/article/690-bulk-product-attachment-import' ) . '" target="_blank">' . esc_html__( 'Click here', 'woocommerce-product-attachment' ) . '</a>' );
-        ?></p>
+                                <p class="wcpoa-descriptions">
+                                    <a href="<?php 
+        echo esc_url( 'https://docs.thedotstore.com/article/690-bulk-product-attachment-import' );
+        ?>" target="_blank">
+                                        <?php 
+        esc_html_e( 'View Documentation & Download Sample CSV', 'woocommerce-product-attachment' );
+        ?>
+                                    </a>
+                                </p>
                                 <div class="wcpoa-general-input-value">
                                     <p><input type="file" id="wcpoa-import-file-attachment" name="wcpoa-import-file-attachment"
                                     <?php 
