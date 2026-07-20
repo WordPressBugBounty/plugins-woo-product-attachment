@@ -200,6 +200,8 @@ li#toplevel_page_woocommerce_product_attachment_pro{display:none;}
 .wcpoa-in-pro-button .button-primary{background:#f9f9f9;border-color:#ccd0d4;color:#b3b6b9;text-decoration:none;text-shadow:none;}
 .wcpoa-in-pro-button .button-primary:hover{background:#f9f9f9;border-color:#ccd0d4;color:#b3b6b9;text-decoration:none;text-shadow:none;}
 .wcpoa-notice{margin:10px 20px 0 0;}
+.wcpoa-seo-attachment-notice{margin-top:12px;padding:10px 12px;border-radius:3px;border-left:4px solid #dba617;background:#fff8e5;color:#3c434a;}
+.wcpoa-seo-attachment-notice p{margin:0;line-height:1.5;}
 .wcpoa-general-setting label {position: relative;}
 .wcpoa-general-setting label > span.woocommerce-help-tip {position: absolute;right: 0;top: 50%;transform: translateY(-50%);}
 .wcpoa-bulk-attach-main table.wcpoa-table.wcpoa_bulk_table label {position: relative;}

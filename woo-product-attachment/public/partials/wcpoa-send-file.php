@@ -5,6 +5,13 @@ if (!defined('WPINC')) {
 }
 
 $attachment_id=filter_input(INPUT_GET,'attachment_id',FILTER_SANITIZE_SPECIAL_CHARS);
+$download_file=filter_input(INPUT_GET,'download_file',FILTER_SANITIZE_SPECIAL_CHARS);
+$wcpoa_attachment_order_id=filter_input(INPUT_GET,'wcpoa_attachment_order_id',FILTER_SANITIZE_SPECIAL_CHARS);
+
+// Defense in depth: never stream media from a bare attachment_id alone.
+if ( empty( $attachment_id ) || ( empty( $download_file ) && empty( $wcpoa_attachment_order_id ) ) ) {
+    return;
+}
        
 if (isset($attachment_id)) {
    $attID = $attachment_id;
@@ -442,6 +449,10 @@ if (isset($attachment_id)) {
         header('Cache-Control: no-store, no-cache, must-revalidate');
         header('Pragma: no-cache');
         header("Content-Length: $fsize");
+        // Only block search indexing when SEO indexing is disabled in settings.
+        if ( 'no' === get_option( 'wcpoa_seo_attachment', 'yes' ) ) {
+            header( 'X-Robots-Tag: noindex, nofollow', true );
+        }
         $chunk = 1 * (1024 * 1024);
         $handle = fopen($fullPath,"rb"); //phpcs:ignore
 

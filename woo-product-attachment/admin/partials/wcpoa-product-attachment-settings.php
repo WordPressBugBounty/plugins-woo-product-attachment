@@ -154,11 +154,24 @@ if ( !empty( $wcpoa_attachment_ids ) && is_array( $wcpoa_attachment_ids ) ) {
             $wcpoa_product_logged_in_flag_val = ( isset( $wcpoa_product_logged_in_flag[$key] ) && !empty( $wcpoa_product_logged_in_flag[$key] ) ? $wcpoa_product_logged_in_flag[$key] : '' );
             $wcpoa_product_date_enable = ( isset( $wcpoa_pd_enable[$key] ) && !empty( $wcpoa_pd_enable[$key] ) ? $wcpoa_pd_enable[$key] : '' );
             $wcpoa_expired_dates = ( isset( $wcpoa_expired_date[$key] ) && !empty( $wcpoa_expired_date[$key] ) ? $wcpoa_expired_date[$key] : '' );
+            $wcpoa_all_order_statuses = array(
+                'wcpoa-wc-completed',
+                'wcpoa-wc-on-hold',
+                'wcpoa-wc-pending',
+                'wcpoa-wc-processing',
+                'wcpoa-wc-cancelled',
+                'wcpoa-wc-failed',
+                'wcpoa-wc-refunded'
+            );
             $wcpoa_order_status_value = get_post_meta( $product_id, 'wcpoa_order_status', true );
+            // Empty / wc-all means apply to all — show every status checked.
             if ( $wcpoa_order_status_value === 'wc-all' ) {
-                $wcpoa_order_status = array();
+                $wcpoa_order_status = $wcpoa_all_order_statuses;
             } else {
                 $wcpoa_order_status = ( isset( $wcpoa_order_status_value[$wcpoa_attachments_id] ) && !empty( $wcpoa_order_status_value[$wcpoa_attachments_id] ) ? $wcpoa_order_status_value[$wcpoa_attachments_id] : array() );
+                if ( empty( $wcpoa_order_status ) ) {
+                    $wcpoa_order_status = $wcpoa_all_order_statuses;
+                }
             }
             //file upload
             // vars
@@ -1153,43 +1166,43 @@ foreach ( $field['value'] as $i => $row ) {
                                             </p>
                                             <ul class="wcpoa-order-checkbox-list">
                                                 <li>
-                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_completed" value="wcpoa-wc-completed" type="checkbox">
+                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_completed" value="wcpoa-wc-completed" type="checkbox" checked="checked">
                                                     <label for="wcpoa_wc_order_completed"><?php 
     esc_html_e( 'Completed', 'woocommerce-product-attachment' );
     ?></label>
                                                 </li>
                                                 <li>
-                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_completed" value="wcpoa-wc-on-hold" type="checkbox">
+                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_completed" value="wcpoa-wc-on-hold" type="checkbox" checked="checked">
                                                     <label for="wcpoa_wc_order_on_hold"><?php 
     esc_html_e( 'On Hold', 'woocommerce-product-attachment' );
     ?></label>
                                                 </li>
                                                 <li>
-                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_pending" value="wcpoa-wc-pending" type="checkbox">
+                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_pending" value="wcpoa-wc-pending" type="checkbox" checked="checked">
                                                     <label for="wcpoa_wc_order_pending"><?php 
     esc_html_e( 'Pending payment', 'woocommerce-product-attachment' );
     ?></label>
                                                 </li>
                                                 <li>
-                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_processing" value="wcpoa-wc-processing" type="checkbox">
+                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_processing" value="wcpoa-wc-processing" type="checkbox" checked="checked">
                                                     <label for="wcpoa_wc_order_processing"><?php 
     esc_html_e( 'Processing', 'woocommerce-product-attachment' );
     ?></label>
                                                 </li>
                                                 <li>
-                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_cancelled" value="wcpoa-wc-cancelled" type="checkbox">
+                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_cancelled" value="wcpoa-wc-cancelled" type="checkbox" checked="checked">
                                                     <label for="wcpoa_wc_order_cancelled"><?php 
     esc_html_e( 'Cancelled', 'woocommerce-product-attachment' );
     ?></label>
                                                 </li>
                                                 <li>
-                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_failed" value="wcpoa-wc-failed" type="checkbox">
+                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_failed" value="wcpoa-wc-failed" type="checkbox" checked="checked">
                                                     <label for="wcpoa_wc_order_failed"><?php 
     esc_html_e( 'Failed', 'woocommerce-product-attachment' );
     ?></label>
                                                 </li>
                                                 <li>
-                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_refunded" value="wcpoa-wc-refunded" type="checkbox">
+                                                    <input name="wcpoa_order_status[]" id="wcpoa_wc_order_refunded" value="wcpoa-wc-refunded" type="checkbox" checked="checked">
                                                     <label for="wcpoa_wc_order_refunded"><?php 
     esc_html_e( 'Refunded', 'woocommerce-product-attachment' );
     ?></label>

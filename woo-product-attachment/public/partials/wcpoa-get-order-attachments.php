@@ -5,15 +5,16 @@ if ( !defined( 'WPINC' ) ) {
     die;
 }
 global $sitepress;
-$wc_order = new WC_Order($order_id);
-if ( !is_a( $wc_order, 'WC_Order' ) ) {
+$wc_order = wc_get_order( $order_id );
+if ( !$wc_order || !is_a( $wc_order, 'WC_Order' ) ) {
     return;
 }
 $order_data = $wc_order->get_data();
-$order_time = $order_data['date_created']->date( 'Y/m/d H:i:s' );
+$order_time = ( isset( $order_data['date_created'] ) && $order_data['date_created'] ? $order_data['date_created']->date( 'Y/m/d H:i:s' ) : '' );
 $items = $wc_order->get_items( array('line_item') );
 $items_order_status = $wc_order->get_status();
 $items_order_id = $wc_order->get_id();
+$order_id = $items_order_id;
 $wcpoa_order_tab_name = get_option( 'wcpoa_order_tab_name' );
 //wcpoa order tab option name
 $wcpoa_expired_date_tlabel = get_option( 'wcpoa_expired_date_label' );

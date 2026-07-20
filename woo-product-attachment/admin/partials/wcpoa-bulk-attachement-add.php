@@ -148,9 +148,19 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                             $wcpoa_product_open_window_flag_val = isset($wcpoa_bulk_att_data[$key]['wcpoa_product_open_window_flag']) && !empty($wcpoa_bulk_att_data[$key]['wcpoa_product_open_window_flag']) ? $wcpoa_bulk_att_data[$key]['wcpoa_product_open_window_flag'] : '';
                             $wcpoa_att_time_amount = isset($wcpoa_bulk_att_data[$key]['wcpoa_attachment_time_amount']) && !empty($wcpoa_bulk_att_data[$key]['wcpoa_attachment_time_amount']) ? $wcpoa_bulk_att_data[$key]['wcpoa_attachment_time_amount'] : '';     
 
+                            $wcpoa_all_order_statuses = array(
+                                'wcpoa-wc-completed',
+                                'wcpoa-wc-on-hold',
+                                'wcpoa-wc-pending',
+                                'wcpoa-wc-processing',
+                                'wcpoa-wc-cancelled',
+                                'wcpoa-wc-failed',
+                                'wcpoa-wc-refunded',
+                            );
                             $wcpoa_order_status_value = isset($wcpoa_bulk_att_data_value['wcpoa_order_status']) && !empty($wcpoa_bulk_att_data_value['wcpoa_order_status']) ? $wcpoa_bulk_att_data_value['wcpoa_order_status'] : '';
+                            // Empty means apply to all — show every status checked.
                             if( empty( $wcpoa_order_status_value )) {
-                                $wcpoa_order_status = array();
+                                $wcpoa_order_status = $wcpoa_all_order_statuses;
                             } else {
                                 $wcpoa_order_status = $wcpoa_order_status_value;
                             }
@@ -657,31 +667,31 @@ $wcpoa_bulk_att_data = get_option('wcpoa_bulk_attachment_data');
                             <p class="description"><?php esc_html_e('Select order status, where you want to showcase attachment. Leave unselected then apply to all.','woocommerce-product-attachment'); ?></p>
                             <ul class="wcpoa-checkbox-list wcpoa-order-checkbox-list">
                                 <li>
-                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_completed" value="wcpoa-wc-completed" type="checkbox">
+                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_completed" value="wcpoa-wc-completed" type="checkbox" checked="checked">
                                     <label for="wcpoa_wc_order_completed"><?php esc_html_e('Completed', 'woocommerce-product-attachment'); ?></label>
                                 </li>
                                 <li>
-                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_on_hold" value="wcpoa-wc-on-hold" type="checkbox">
+                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_on_hold" value="wcpoa-wc-on-hold" type="checkbox" checked="checked">
                                     <label for="wcpoa_wc_order_on_hold"><?php esc_html_e('On Hold', 'woocommerce-product-attachment'); ?></label>
                                 </li>
                                 <li>
-                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_pending" value="wcpoa-wc-pending" type="checkbox">
+                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_pending" value="wcpoa-wc-pending" type="checkbox" checked="checked">
                                     <label for="wcpoa_wc_order_pending"><?php esc_html_e('Pending payment', 'woocommerce-product-attachment'); ?></label>
                                 </li>
                                 <li>
-                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_processing" value="wcpoa-wc-processing" type="checkbox">
+                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_processing" value="wcpoa-wc-processing" type="checkbox" checked="checked">
                                     <label for="wcpoa_wc_order_processing"><?php esc_html_e('Processing', 'woocommerce-product-attachment'); ?></label>
                                 </li>
                                 <li>
-                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_cancelled" value="wcpoa-wc-cancelled" type="checkbox">
+                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_cancelled" value="wcpoa-wc-cancelled" type="checkbox" checked="checked">
                                     <label for="wcpoa_wc_order_cancelled"><?php esc_html_e('Cancelled', 'woocommerce-product-attachment'); ?></label>
                                 </li>
                                 <li>
-                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_failed" value="wcpoa-wc-failed" type="checkbox">
+                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_failed" value="wcpoa-wc-failed" type="checkbox" checked="checked">
                                     <label for="wcpoa_wc_order_failed"><?php esc_html_e('Failed', 'woocommerce-product-attachment'); ?></label>
                                 </li>
                                 <li>
-                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_refunded" value="wcpoa-wc-refunded" type="checkbox">
+                                    <input name="wcpoa_order_status[][]" id="wcpoa_wc_order_refunded" value="wcpoa-wc-refunded" type="checkbox" checked="checked">
                                     <label for="wcpoa_wc_order_refunded"><?php esc_html_e('Refunded', 'woocommerce-product-attachment'); ?></label>
                                 </li>
                             </ul>

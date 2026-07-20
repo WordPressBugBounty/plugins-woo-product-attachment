@@ -16,7 +16,7 @@
  * Plugin Name: Product Attachment for WooCommerce
  * Plugin URI:        https://www.thedotstore.com/
  * Description:       Product Attachment for WooCommerce Plugin will help you to attach/ upload any kind of files for a customer orders. You can attach any type of file like Images, documents, videos and many more..
- * Version:           2.3.2
+ * Version:           2.3.3
  * Author:            theDotstore
  * Author URI:        https://profiles.wordpress.org/dots
  * License:           GPL-2.0+
@@ -26,8 +26,8 @@
  * Requires Plugins:  woocommerce
  *
  * WC requires at least: 4.5
- * WP tested up to:      6.9
- * WC tested up to:      10.4.2
+ * WP tested up to:      7.0.1
+ * WC tested up to:      10.9.4
  * Requires PHP:         7.2
  * Requires at least:    5.0
  */
@@ -47,26 +47,27 @@ if ( !function_exists( 'wpap_fs' ) ) {
             // Include Freemius SDK.
             require_once dirname( __FILE__ ) . '/freemius/start.php';
             $wpap_fs = fs_dynamic_init( array(
-                'id'              => '3473',
-                'slug'            => 'woo-product-attachment',
-                'type'            => 'plugin',
-                'public_key'      => 'pk_eac499ce039e8334a8d30870fd1fd',
-                'is_premium'      => false,
-                'premium_suffix'  => 'Premium',
-                'has_addons'      => false,
-                'has_paid_plans'  => true,
-                'has_affiliation' => 'selected',
-                'trial'           => array(
+                'id'               => '3473',
+                'slug'             => 'woo-product-attachment',
+                'type'             => 'plugin',
+                'public_key'       => 'pk_eac499ce039e8334a8d30870fd1fd',
+                'is_premium'       => false,
+                'premium_suffix'   => 'Premium',
+                'has_addons'       => false,
+                'has_paid_plans'   => true,
+                'has_affiliation'  => 'selected',
+                'trial'            => array(
                     'days'               => 14,
                     'is_require_payment' => true,
                 ),
-                'menu'            => array(
+                'menu'             => array(
                     'slug'       => 'woocommerce_product_attachment',
                     'first-path' => 'admin.php?page=woocommerce_product_attachment&tab=wcpoa-plugin-getting-started',
                     'contact'    => false,
                     'support'    => false,
                 ),
-                'is_live'         => true,
+                'is_live'          => true,
+                'is_org_compliant' => true,
             ) );
         }
         return $wpap_fs;
@@ -86,7 +87,7 @@ if ( !defined( 'WCPOA_PLUGIN_PATH' ) ) {
     define( 'WCPOA_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 }
 if ( !defined( 'WCPOA_PLUGIN_VERSION' ) ) {
-    define( 'WCPOA_PLUGIN_VERSION', '2.3.2' );
+    define( 'WCPOA_PLUGIN_VERSION', '2.3.3' );
 }
 if ( !defined( 'WCPOA_PLUGIN_BASENAME' ) ) {
     define( 'WCPOA_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -198,6 +199,9 @@ if ( function_exists( 'activate_woocommerce_product_attachment' ) ) {
             }
             if ( !get_option( 'wcpoa_product_download_type' ) ) {
                 add_option( 'wcpoa_product_download_type', 'download_by_btn' );
+            }
+            if ( !get_option( 'wcpoa_seo_attachment' ) ) {
+                add_option( 'wcpoa_seo_attachment', 'yes' );
             }
         },
         10,

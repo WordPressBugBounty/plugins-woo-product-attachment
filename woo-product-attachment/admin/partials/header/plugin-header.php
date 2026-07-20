@@ -171,6 +171,46 @@ echo esc_attr( $about_plugin_get_started );
                 </div>
             </div>
         </header>
+        <?php 
+$wcpoa_convert_to_pro = filter_var( get_option( 'wcpoa_convert_to_pro', false ), FILTER_VALIDATE_BOOLEAN );
+if ( !wpap_fs()->is__premium_only() && true === $wcpoa_convert_to_pro ) {
+    $wcpoa_convert_to_pro_doc_url = 'https://docs.thedotstore.com/category/353-premium-plugin-settings';
+    $wcpoa_convert_to_pro_dismiss_url = wp_nonce_url( add_query_arg( 'wcpoa-dismiss-convert-to-pro', '1' ), 'wcpoa_convert_to_pro_dismiss', '_wcpoa_convert_to_pro_nonce' );
+    ?>
+            <div class="notice notice-success wcpoa-convert-to-pro-notice">
+                <a class="notice-dismiss" href="<?php 
+    echo esc_url( $wcpoa_convert_to_pro_dismiss_url );
+    ?>">
+                    <span class="screen-reader-text"><?php 
+    esc_html_e( 'Dismiss this notice.', 'woocommerce-product-attachment' );
+    ?></span>
+                </a>
+                <p><strong><?php 
+    esc_html_e( 'Thank you for purchasing the plugin!', 'woocommerce-product-attachment' );
+    ?></strong></p>
+                <p><?php 
+    esc_html_e( 'You are currently using the free version of Product Attachment for WooCommerce.', 'woocommerce-product-attachment' );
+    ?></p>
+                <p>
+                    <?php 
+    echo wp_kses( __( 'To use pro features, please <strong>remove this free plugin</strong> and <strong>install and activate the premium version</strong>. Don\'t worry — this will not remove any attachment data or settings. Once you activate the premium version, all your settings will be automatically restored.', 'woocommerce-product-attachment' ), array(
+        'strong' => array(),
+    ) );
+    ?>
+                </p>
+                <p>
+                    <a href="<?php 
+    echo esc_url( $wcpoa_convert_to_pro_doc_url );
+    ?>" class="button button-primary" target="_blank" rel="noopener noreferrer">
+                        <?php 
+    esc_html_e( 'View step-by-step guide', 'woocommerce-product-attachment' );
+    ?>
+                    </a>
+                </p>
+            </div>
+            <?php 
+}
+?>
         <!-- Upgrade to pro popup -->
         <?php 
 if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {

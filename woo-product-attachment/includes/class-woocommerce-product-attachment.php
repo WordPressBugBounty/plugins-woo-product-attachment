@@ -158,7 +158,14 @@ class Woocommerce_Product_Attachment {
         $this->loader->add_action( 'load-' . $screen_id, $plugin_admin, 'wcpoa_add_my_meta_box' );
         $this->loader->add_action( 'admin_head', $plugin_admin, 'wcpoa_remove_admin_menus' );
         $this->loader->add_action( 'wp_ajax_wcpoa_plugin_setup_wizard_submit', $plugin_admin, 'wcpoa_plugin_setup_wizard_submit' );
+        $this->loader->add_action( 'wp_ajax_wcpoa_convert_to_pro_purchase', $plugin_admin, 'wcpoa_convert_to_pro_purchase' );
         $this->loader->add_action( 'admin_init', $plugin_admin, 'wcpoa_send_wizard_data_after_plugin_activation' );
+        $this->loader->add_action(
+            'admin_init',
+            $plugin_admin,
+            'wcpoa_handle_convert_to_pro_dismiss',
+            5
+        );
         // Footer review text
         if ( !empty( $page ) && (false !== strpos( $page, 'wcpoa' ) || false !== strpos( $page, 'woocommerce_product_attachment' )) ) {
             $this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'wcpoa_admin_footer_review' );

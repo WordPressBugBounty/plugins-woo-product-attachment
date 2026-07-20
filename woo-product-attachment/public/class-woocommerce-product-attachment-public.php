@@ -131,6 +131,153 @@ class Woocommerce_Product_Attachment_Public {
      *
      * @since 1.0.0
      */
+    /**
+     * Whether a media ID is registered as a plugin product/bulk attachment for the given key.
+     *
+     * @param string $attachment_id Media library attachment ID.
+     * @param string $download_file Plugin attachment key (wcpoa_attachments_id).
+     * @return bool
+     */
+    private function wcpoa_attachment_matches_download_key( $attachment_id, $download_file ) {
+        $attachment_id = (string) absint( $attachment_id );
+        $download_file = (string) $download_file;
+        if ( '' === $attachment_id || '0' === $attachment_id || '' === $download_file ) {
+            return false;
+        }
+        // Bulk attachments.
+        $bulk_data = get_option( 'wcpoa_bulk_attachment_data', array() );
+        if ( is_array( $bulk_data ) ) {
+            foreach ( $bulk_data as $bulk_key => $bulk_value ) {
+                if ( !is_array( $bulk_value ) ) {
+                    continue;
+                }
+                $bulk_att_id = ( !empty( $bulk_value['wcpoa_attachments_id'] ) ? (string) $bulk_value['wcpoa_attachments_id'] : (string) $bulk_key );
+                if ( $bulk_att_id !== $download_file ) {
+                    continue;
+                }
+                $bulk_file = ( isset( $bulk_value['wcpoa_attachment_file'] ) ? (string) absint( $bulk_value['wcpoa_attachment_file'] ) : '' );
+                if ( $bulk_file === $attachment_id ) {
+                    return true;
+                }
+            }
+        }
+        // Product-level attachments (match plugin key + media ID at the same index).
+        // posts_per_page=-1: the same download_file key can exist on many products
+        // (e.g. bulk assign / import); capping the result set can false-deny downloads.
+        $product_query = new WP_Query(array(
+            'post_type'              => array('product', 'product_variation'),
+            'post_status'            => 'any',
+            'posts_per_page'         => -1,
+            'fields'                 => 'ids',
+            'no_found_rows'          => true,
+            'update_post_term_cache' => false,
+            'meta_query'             => array(
+                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                array(
+                    'key'     => 'wcpoa_attachments_id',
+                    'value'   => $download_file,
+                    'compare' => 'LIKE',
+                ),
+            ),
+        ));
+        foreach ( (array) $product_query->posts as $product_id ) {
+            $att_ids = get_post_meta( $product_id, 'wcpoa_attachments_id', true );
+            $att_urls = get_post_meta( $product_id, 'wcpoa_attachment_url', true );
+            if ( !is_array( $att_ids ) || !is_array( $att_urls ) ) {
+                continue;
+            }
+            foreach ( $att_ids as $idx => $att_key ) {
+                if ( (string) $att_key !== $download_file ) {
+                    continue;
+                }
+                if ( isset( $att_urls[$idx] ) && (string) absint( $att_urls[$idx] ) === $attachment_id ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Whether a media ID is stored on a WooCommerce order as a checkout/order attachment.
+     *
+     * @param string $attachment_id Media library attachment ID.
+     * @param string $order_id      Order ID.
+     * @return bool
+     */
+    private function wcpoa_attachment_belongs_to_order( $attachment_id, $order_id ) {
+        $attachment_id = (string) absint( $attachment_id );
+        $order_id = absint( $order_id );
+        if ( '' === $attachment_id || '0' === $attachment_id || !$order_id ) {
+            return false;
+        }
+        $lists = array();
+        $order = wc_get_order( $order_id );
+        if ( $order ) {
+            $lists[] = (string) $order->get_meta( '_wcpoa_checkout_attachment_ids', true );
+            $lists[] = (string) $order->get_meta( '_wcpoa_order_attachments', true );
+            // Product attachments saved onto order line items.
+            foreach ( $order->get_items( 'line_item' ) as $item_id => $item ) {
+                unset($item);
+                $order_att = wc_get_order_item_meta( $item_id, 'wcpoa_order_attachment_order_arr', true );
+                if ( empty( $order_att['wcpoa_attachment_ids'] ) || empty( $order_att['wcpoa_attachment_url'] ) || !is_array( $order_att['wcpoa_attachment_ids'] ) || !is_array( $order_att['wcpoa_attachment_url'] ) ) {
+                    continue;
+                }
+                foreach ( $order_att['wcpoa_attachment_ids'] as $idx => $att_key ) {
+                    unset($att_key);
+                    if ( isset( $order_att['wcpoa_attachment_url'][$idx] ) && (string) absint( $order_att['wcpoa_attachment_url'][$idx] ) === $attachment_id ) {
+                        return true;
+                    }
+                }
+            }
+        } else {
+            $lists[] = (string) get_post_meta( $order_id, '_wcpoa_checkout_attachment_ids', true );
+            $lists[] = (string) get_post_meta( $order_id, '_wcpoa_order_attachments', true );
+        }
+        foreach ( $lists as $list ) {
+            if ( '' === $list ) {
+                continue;
+            }
+            $ids = array_map( 'absint', array_map( 'trim', explode( ',', $list ) ) );
+            if ( in_array( (int) $attachment_id, $ids, true ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Authorize a download request before streaming a media file.
+     *
+     * @param string $attachment_id Media library attachment ID.
+     * @param string $download_file Plugin attachment key (optional).
+     * @param string $order_id      Order ID (optional).
+     * @return bool
+     */
+    private function wcpoa_is_authorized_download_request( $attachment_id, $download_file = '', $order_id = '' ) {
+        $attachment_id = (string) absint( $attachment_id );
+        $download_file = (string) $download_file;
+        $order_id = (string) absint( $order_id );
+        if ( '' === $attachment_id || '0' === $attachment_id ) {
+            return false;
+        }
+        // Order/checkout media download (no plugin attachment key).
+        if ( '' !== $order_id && '0' !== $order_id && '' === $download_file ) {
+            return $this->wcpoa_attachment_belongs_to_order( $attachment_id, $order_id );
+        }
+        // Product/bulk/order-item download requires matching plugin key → media ID.
+        if ( '' !== $download_file ) {
+            if ( $this->wcpoa_attachment_matches_download_key( $attachment_id, $download_file ) ) {
+                return true;
+            }
+            // Historical order line-item copy of the attachment mapping.
+            if ( '' !== $order_id && '0' !== $order_id ) {
+                return $this->wcpoa_attachment_belongs_to_order( $attachment_id, $order_id );
+            }
+        }
+        return false;
+    }
+
     public function wcpoa_download_file() {
         if ( is_admin() ) {
             return;
@@ -138,9 +285,40 @@ class Woocommerce_Product_Attachment_Public {
         $attachment_id = filter_input( INPUT_GET, 'attachment_id', FILTER_SANITIZE_SPECIAL_CHARS );
         $download_file = filter_input( INPUT_GET, 'download_file', FILTER_SANITIZE_SPECIAL_CHARS );
         $wcpoa_attachment_order_id = filter_input( INPUT_GET, 'wcpoa_attachment_order_id', FILTER_SANITIZE_SPECIAL_CHARS );
+        // No media ID — nothing to serve.
+        if ( empty( $attachment_id ) ) {
+            return;
+        }
+        /**
+         * Block bare ?attachment_id=N requests.
+         *
+         * Legitimate plugin download URLs always include download_file and/or
+         * wcpoa_attachment_order_id. Returning here is not enough: when WordPress
+         * attachment pages are disabled (wp_attachment_pages_enabled), core
+         * redirect_canonical() 301s ?attachment_id=N to the public uploads URL,
+         * which still exposes the file. Deny the request instead.
+         */
+        if ( empty( $download_file ) && empty( $wcpoa_attachment_order_id ) ) {
+            $media_post = get_post( absint( $attachment_id ) );
+            if ( $media_post && 'attachment' === $media_post->post_type ) {
+                wp_die( esc_html__( 'You are not allowed to download this attachment.', 'woocommerce-product-attachment' ), esc_html__( 'Forbidden', 'woocommerce-product-attachment' ), array(
+                    'response' => 403,
+                ) );
+            }
+            return;
+        }
+        // Only stream media that is registered as a plugin attachment for these params.
+        if ( !$this->wcpoa_is_authorized_download_request( $attachment_id, $download_file, $wcpoa_attachment_order_id ) ) {
+            wp_die( esc_html__( 'You are not allowed to download this attachment.', 'woocommerce-product-attachment' ), esc_html__( 'Forbidden', 'woocommerce-product-attachment' ), array(
+                'response' => 403,
+            ) );
+        }
         if ( !empty( $attachment_id ) && !empty( $download_file ) && !empty( $wcpoa_attachment_order_id ) ) {
             $wcpoa_attachment_order_id = $wcpoa_attachment_order_id;
-            $order = new WC_Order($wcpoa_attachment_order_id);
+            $order = wc_get_order( $wcpoa_attachment_order_id );
+            if ( !is_a( $order, 'WC_Order' ) ) {
+                return;
+            }
             $items = $order->get_items( array('line_item') );
             //Bulk Attachement
             if ( isset( $items ) && is_array( $items ) ) {
@@ -184,6 +362,8 @@ class Woocommerce_Product_Attachment_Public {
             }
             wp_die( sprintf( esc_html__( '<strong>This Attachement is Expired.</strong> You are no longer to download this attachement.', 'woocommerce-product-attachment' ) ) );
         } else {
+            // Product-page / bulk (attachment_id + download_file) or
+            // order/checkout media (attachment_id + wcpoa_attachment_order_id).
             require_once plugin_dir_path( __FILE__ ) . 'partials/wcpoa-send-file.php';
         }
     }
@@ -927,6 +1107,11 @@ class Woocommerce_Product_Attachment_Public {
      * @param $order_id
      */
     public function wcpoa_order_data_show_email( $order_id ) {
+        $wc_order = wc_get_order( $order_id );
+        if ( !is_a( $wc_order, 'WC_Order' ) ) {
+            return;
+        }
+        $order_id = $wc_order->get_id();
         $this->wcpoa_get_customer_order_attachments( $order_id );
     }
 
@@ -1118,7 +1303,16 @@ class Woocommerce_Product_Attachment_Public {
                 }
             }
         }
-        return $attachments;
+        /**
+         * Filter the list of physical file paths attached to WooCommerce order emails.
+         * Return an empty array to attach no files, or a modified list of paths.
+         *
+         * @since 2.3.3
+         *
+         * @param array $attachments File paths to attach.
+         * @example add_filter( 'wcpoa_email_attachments', '__return_false' );
+         */
+        return apply_filters( 'wcpoa_email_attachments', $attachments );
     }
 
     /**

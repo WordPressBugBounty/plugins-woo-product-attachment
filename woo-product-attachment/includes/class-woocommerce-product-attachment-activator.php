@@ -72,6 +72,9 @@ class Woocommerce_Product_Attachment_Activator {
         if(!get_option('wcpoa_product_download_type')){
             add_option('wcpoa_product_download_type', 'download_by_btn');
         }
+        if(!get_option('wcpoa_seo_attachment')){
+            add_option('wcpoa_seo_attachment', 'yes');
+        }
 
 
         if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')),true) && !is_plugin_active_for_network('woocommerce/woocommerce.php')) {

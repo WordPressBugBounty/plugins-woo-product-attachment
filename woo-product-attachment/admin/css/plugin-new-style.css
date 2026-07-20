@@ -13,7 +13,8 @@ input[type=radio]:checked::before{background-color:var(--dotstore-primary);}
 input[type=checkbox]:focus,input[type=radio]:focus{border-color:var(--dotstore-primary);-webkit-box-shadow:none;box-shadow:none;}
 .wp-core-ui .button:focus,.fs-modal input[type=text]:focus,#screen-options-wrap input:focus,#fs_account .fs-key-value-table input[type=text]:focus,#dotsstoremain .wcpoa-section-left input:focus,#dotsstoremain .wcpoa-section-left textarea:focus,#dotsstoremain .wcpoa-section-left select:focus,#dotsstoremain .ds-plugin-setup-wizard-main select:focus{border-color:var(--dotstore-primary);-webkit-box-shadow:none;box-shadow:none;outline:none;}
 #tiptip_holder,#tiptip_content{max-width:290px!important;}
-.wp-core-ui .dots-settings-inner-main input:not(.wp-picker-container input):not([type=checkbox]):not([type=radio]),.wp-core-ui .dots-settings-inner-main select,.wp-core-ui .dots-settings-inner-main textarea{font-size:13px;min-height:30px;max-width:100%}
+#dotsstoremain .wcpoa-section-left input[type=radio]:checked,#dotsstoremain .wcpoa-section-left input[type=checkbox]:checked{background-color: #fff;border-color: #8c8f94; }
+.wp-core-ui .dots-settings-inner-main input:not(.wp-picker-container input):not([type=checkbox]):not([type=radio]),.wp-core-ui .dots-settings-inner-main select,.wp-core-ui .dots-settings-inner-main textarea{font-size:13px;min-height:30px;max-width:100%;line-height: 1;}
 .dots-settings-inner-main .fs-notice[data-id="activation_pending"]{display:none!important;}
 .notice,div.error,div.updated{margin-left:0;margin-right:0;}
 #dotsstoremain .notice,#dotsstoremain #message,#dotsstoremain .updated{margin:0 0 22px}
@@ -51,7 +52,7 @@ header.dots-header{background-color:#fff;border-radius:5px;-webkit-box-shadow:0 
 .dots-header .button-dots:last-child a::after,.dots-header .button-dots.last-link-button a::after{display:none;}
 .dots-header .button-dots  a.dots-upgrade-btn{background-color:var(--dotstore-primary);border-radius:5px;padding:8px 20px;color:#fff;margin-left:16px;}
 .wrap .notice,.wrap div.error,.wrap div.updated{margin:0 0 24px;width:100%;}
-
+#dotsstoremain .notice-dismiss{text-decoration: none !important;}
 /* Plugin submenu items design */
 .dotstore-submenu-items{display:inline-block;width:100%;margin:0 0 18px;}
 .dotstore-submenu-items ul{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:0;margin:0;}
@@ -153,7 +154,7 @@ header.dots-header{background-color:#fff;border-radius:5px;-webkit-box-shadow:0 
 .fs-modal-dialog .fs-modal-footer .button-primary.warn{background-color:var(--dotstore-primary);border:1px solid var(--dotstore-primary);color:#fff;box-shadow:none;text-shadow:none}
 .dots-settings-inner-main .button-secondary,
 #fs_account .button,
-.wp-core-ui .button-secondary{border-radius:5px;font-size:13px;line-height:15px;font-weight:500;padding:7px 10px;display:inline-block!important;box-shadow:none;border-color:#8c8f94;color:#000;background-color:#fff;transition:all 0.25s ease;}
+.wp-core-ui .button-secondary{border-radius:5px;font-size:13px;line-height:15px;font-weight:500;padding:7px 10px;display:inline-block!important;box-shadow:none;border-color:#8c8f94;color:#000;background-color:#fff;transition:all 0.25s ease;min-height: unset;}
 .wp-core-ui .button-secondary:focus, 
 .wp-core-ui .button-secondary:hover,
 #fs_account .button:hover,
@@ -184,7 +185,7 @@ a.wcpoa-icon.-minus:hover,a.wcpoa-icon.-cancel:hover{background-color:var(--dots
 .wcpoa-product-attachment-import-export p.wcpoa-descriptions {font-style: italic;}
 .wcpoa-product-attachment-import-export a#delete-all-prd-attach {color: #1d2327;border-color:#8c8f94;}
 .wcpoa-product-attachment-import-export a#delete-all-prd-attach:hover {color: #bd0000;border-color:#bd0000;}
-.wcpoa-product-attachment-import-export .wcpoa-delete-icon{font-size: 16px;height: auto;vertical-align: sub;}
+.wcpoa-product-attachment-import-export .wcpoa-delete-icon{font-size: 16px;height: auto;vertical-align: sub;line-height: 1!important;}
 .dots-header .button-dots a.dots-upgrade-btn {
     background-color: var(--dotstore-secondary);
     border-radius: 5px;
@@ -400,7 +401,7 @@ a.wcpoa-icon.-minus:hover,a.wcpoa-icon.-cancel:hover{background-color:var(--dots
     .wcpoa-section-left p.search-box{margin:20px 0 0;}
     .dots-settings-inner-main .form-table th{width:100%;}
     .dots-settings-inner-main input[type=checkbox],#screen-meta input[type=checkbox],.dots-settings-inner-main input[type=radio],#screen-meta input[type=radio]{width:1rem;height:1rem;}
-    .dots-settings-inner-main input[type=checkbox]:checked:before,#screen-meta input[type=checkbox]:checked:before{margin:-0.1875rem 0 0 -0.25rem;height:1.3125rem;width:1.3125rem;}
+    .dots-settings-inner-main input[type=checkbox]:checked:before,#screen-meta input[type=checkbox]:checked:before{margin:-0.1875rem 0 0 -0.25rem;height:1.3125rem;width:1.3125rem; }
     input[type=radio]:checked:before{margin:0.1875rem;width:0.5rem;height:0.5rem;}
     .wp-core-ui .dots-settings-inner-main select{padding-top:0;padding-bottom:0;max-width:100%;}
     .dots-settings-inner-main .pagination-links .button,.dots-settings-inner-main .tablenav-pages .pagination-links .current-page{padding:3px 10px;min-width:30px;line-height:1.625;}

@@ -206,23 +206,24 @@ class Woocommerce_Product_Attachment_Admin {
                 wp_enqueue_script( 'jquery-tiptip' );
             }
             wp_localize_script( $this->plugin_name, 'wcpoa_vars', array(
-                'ajaxurl'                 => admin_url( 'admin-ajax.php' ),
-                'wcpoa_nonce'             => wp_create_nonce( 'ajax_verification' ),
-                'validation_msg'          => __( 'Please fill required fields in the WooCommerce Product Attachment section below.', 'woocommerce-product-attachment' ),
-                'update_order'            => __( 'Update Order', 'woocommerce-product-attachment' ),
-                'bulk_attachment_add'     => __( 'New bulk attachment successfully inserted.', 'woocommerce-product-attachment' ),
-                'bulk_attachment_save'    => __( 'Bulk attachment successfully saved.', 'woocommerce-product-attachment' ),
-                'bulk_attachment_edit'    => __( 'Bulk attachment successfully edited.', 'woocommerce-product-attachment' ),
-                'bulk_attachment_delete'  => __( 'Bulk attachment deleted successfully.', 'woocommerce-product-attachment' ),
-                'bulk_attachment_import'  => __( 'Bulk attachment imported successfully.', 'woocommerce-product-attachment' ),
-                'bulk_attachment_order'   => __( 'Bulk attachment order changed successfully.', 'woocommerce-product-attachment' ),
-                'dpb_api_url'             => WCPOA_STORE_URL,
-                'setup_wizard_ajax_nonce' => wp_create_nonce( 'wizard_ajax_nonce' ),
-                'select_product'          => __( 'Select a product', 'woocommerce-product-attachment' ),
-                'select_category'         => __( 'Select a category', 'woocommerce-product-attachment' ),
-                'select_tag'              => __( 'Select a tag', 'woocommerce-product-attachment' ),
-                'select_attributes'       => __( 'Select an attribute', 'woocommerce-product-attachment' ),
-                'is_plugin_page'          => ( isset( $post_type ) && ($post_type !== 'product' && $post_type !== 'shop_order') ? 'yes' : 'no' ),
+                'ajaxurl'                    => admin_url( 'admin-ajax.php' ),
+                'wcpoa_nonce'                => wp_create_nonce( 'ajax_verification' ),
+                'wcpoa_convert_to_pro_nonce' => wp_create_nonce( 'wcpoa_convert_to_pro_purchase' ),
+                'validation_msg'             => __( 'Please fill required fields in the WooCommerce Product Attachment section below.', 'woocommerce-product-attachment' ),
+                'update_order'               => __( 'Update Order', 'woocommerce-product-attachment' ),
+                'bulk_attachment_add'        => __( 'New bulk attachment successfully inserted.', 'woocommerce-product-attachment' ),
+                'bulk_attachment_save'       => __( 'Bulk attachment successfully saved.', 'woocommerce-product-attachment' ),
+                'bulk_attachment_edit'       => __( 'Bulk attachment successfully edited.', 'woocommerce-product-attachment' ),
+                'bulk_attachment_delete'     => __( 'Bulk attachment deleted successfully.', 'woocommerce-product-attachment' ),
+                'bulk_attachment_import'     => __( 'Bulk attachment imported successfully.', 'woocommerce-product-attachment' ),
+                'bulk_attachment_order'      => __( 'Bulk attachment order changed successfully.', 'woocommerce-product-attachment' ),
+                'dpb_api_url'                => WCPOA_STORE_URL,
+                'setup_wizard_ajax_nonce'    => wp_create_nonce( 'wizard_ajax_nonce' ),
+                'select_product'             => __( 'Select a product', 'woocommerce-product-attachment' ),
+                'select_category'            => __( 'Select a category', 'woocommerce-product-attachment' ),
+                'select_tag'                 => __( 'Select a tag', 'woocommerce-product-attachment' ),
+                'select_attributes'          => __( 'Select an attribute', 'woocommerce-product-attachment' ),
+                'is_plugin_page'             => ( isset( $post_type ) && ($post_type !== 'product' && $post_type !== 'shop_order') ? 'yes' : 'no' ),
             ) );
             // Freemius checkout popup library for upgrade
             if ( !(wpap_fs()->is__premium_only() && wpap_fs()->can_use_premium_code()) ) {
@@ -264,6 +265,37 @@ class Woocommerce_Product_Attachment_Admin {
             'page' => 'woocommerce_product_attachment&tab=wcpoa-plugin-getting-started',
         ), admin_url( 'admin.php' ) ) );
         exit;
+    }
+
+    /**
+     * Set the conversion flag after a successful Freemius purchase.
+     *
+     * @since 2.3.3
+     */
+    public function wcpoa_convert_to_pro_purchase() {
+        check_ajax_referer( 'wcpoa_convert_to_pro_purchase', 'security' );
+        if ( !current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
+        update_option( 'wcpoa_convert_to_pro', true );
+        wp_send_json_success();
+    }
+
+    /**
+     * Dismiss the premium installation notice.
+     *
+     * @since 2.3.3
+     */
+    public function wcpoa_handle_convert_to_pro_dismiss() {
+        $dismiss = filter_input( INPUT_GET, 'wcpoa-dismiss-convert-to-pro', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+        $nonce = filter_input( INPUT_GET, '_wcpoa_convert_to_pro_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+        if ( '1' !== sanitize_text_field( $dismiss ) ) {
+            return;
+        }
+        if ( !current_user_can( 'manage_options' ) || !wp_verify_nonce( sanitize_text_field( $nonce ), 'wcpoa_convert_to_pro_dismiss' ) ) {
+            return;
+        }
+        update_option( 'wcpoa_convert_to_pro', false );
     }
 
     /**
@@ -795,7 +827,7 @@ class Woocommerce_Product_Attachment_Admin {
         $wcpoa_meta_box = '';
         $wcpoa_meta_box .= '<input type="hidden" name="wcpoa_media_ids" data-id="' . esc_attr( $order_id ) . '"  id="wcpoa_media_ids" value=' . esc_attr( $wcpoa_all_ids ) . '>';
         $wcpoa_meta_box .= '<div class="wcpoa-order-attach"><p>';
-        $wcpoa_meta_box .= '<a href="#" id="wcpoa-order-upload-file" class="button button-primary">Add Attachment</a>';
+        $wcpoa_meta_box .= '<a href="#" id="wcpoa-order-upload-file" class="button button-primary">' . esc_html__( 'Add Attachment', 'woocommerce-product-attachment' ) . '</a>';
         $wcpoa_meta_box .= '</p></div>';
         $wcpoa_meta_box .= '<div id="wcpoa_updated_attach">';
         if ( isset( $wcpoa_all_ids ) && !empty( $wcpoa_all_ids ) ) {

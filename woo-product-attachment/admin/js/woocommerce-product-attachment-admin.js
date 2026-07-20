@@ -324,6 +324,16 @@
         });
     });
     
+    /** Mark the free plugin for conversion after a successful purchase. */
+    function wcpoaMarkConvertToPro() {
+        $.post( wcpoa_vars.ajaxurl, {
+            action: 'wcpoa_convert_to_pro_purchase',
+            security: wcpoa_vars.wcpoa_convert_to_pro_nonce
+        } ).always( function() {
+            //window.location.reload();
+        } );
+    }
+
     /** Script for Freemius upgrade popup */
     function upgradeToProFreemius( couponCode ) {
         let handler;
@@ -339,6 +349,7 @@
             subtitle: 'WooCommerce Product Attachment',
             licenses: jQuery('input[name="licence"]:checked').val(),
             purchaseCompleted: function( response ) {                            
+                wcpoaMarkConvertToPro();
                 console.log (response);
             },
             success: function (response) {

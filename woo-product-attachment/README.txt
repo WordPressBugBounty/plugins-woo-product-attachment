@@ -3,9 +3,9 @@ Contributors: dots,jitendrabanjara1991,niravcse006
 Donate link: https://www.thedotstore.com/
 Tags: attachment,woocommerce,productattachment,orderattachment,dots
 Requires at least: 5.0
-Tested up to: 6.9
-WC tested up to: 10.4.2
-Stable tag: 2.3.2
+Tested up to: 7.0.1
+WC tested up to: 10.9.4
+Stable tag: 2.3.3
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -44,7 +44,6 @@ Pro Plugin Demo: <a href="https://pluginsdemo.thedotstore.com/woocommerce-produc
 * Any type attachments you can attach with order
 * Add Attachment in all  products.
 * Each Attachment have own settings (Name, Description, Uploads file, select Order status, Set expiry Date and more)
-* Display product attachments anywhere on the product page using a simple shortcode for complete layout flexibility.
 
 <blockquote>
 
@@ -121,6 +120,15 @@ Ans: By Product Attachment for WooCommerce plugin you can enable “set date exp
 11.
 
 == Changelog ==
+= 2.3.3 =
+* [Bug Fix] Fixed PHP warning related to strpos.
+* [Enhancement] Improved attachment default order status selection behavior.
+* [Enhancement] Added filter-based support to prevent physical attachments in order emails.
+* [Enhancement] Improved HPOS compatibility.
+* [Enhancement] Fixed an authorization vulnerability in attachment file downloads.
+* [Enhancement] Compatible with WooCommerce 10.9.x
+* [Enhancement] Compatible with WordPress 7.0.x
+
 = 2.3.2 =
 * [New] Added shortcode feature to display product attachments
 * [Bug Fix] General bug fixes and stability improvements
