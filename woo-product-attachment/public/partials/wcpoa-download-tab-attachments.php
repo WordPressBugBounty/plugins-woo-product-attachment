@@ -1090,7 +1090,7 @@ if((int)$wcpoa_att_download_restrict_flag === 1 && $wcpoa_att_in_my_acc === "wcp
     if( !empty( $wcpoa_checkout_all_ids ) && "" !== $wcpoa_checkout_all_ids ){
         $id_checkout_array = explode( ",", $wcpoa_checkout_all_ids );
         foreach ($id_checkout_array as $wcpoa_checkout_id){
-            $wcpoa_file_url_btn = get_permalink() .'?post_type=shop_order&p=' . $items_order_id . '&attachment_id=' . $wcpoa_checkout_id . '&wcpoa_attachment_order_id='.$items_order_id;
+            $wcpoa_file_url_btn = get_permalink() .'?post_type=shop_order&p=' . $items_order_id . '&attachment_id=' . $wcpoa_checkout_id . '&wcpoa_attachment_order_id='.$items_order_id . $this->wcpoa_get_order_key_query( $items_order_id );
 
             $attachment_name = get_the_title( $wcpoa_checkout_id );
 
@@ -1127,7 +1127,7 @@ if((int)$wcpoa_att_download_restrict_flag === 1 && $wcpoa_att_in_my_acc === "wcp
     if( !empty( $wcpoa_all_ids ) && "" !== $wcpoa_all_ids ){
         $id_array = explode( ",", $wcpoa_all_ids );
         foreach ($id_array as $wcpoa_id){
-            $wcpoa_file_url_btn = get_permalink() .'?post_type=shop_order&p=' . $items_order_id . '&attachment_id=' . $wcpoa_id . '&wcpoa_attachment_order_id='.$items_order_id;
+            $wcpoa_file_url_btn = get_permalink() .'?post_type=shop_order&p=' . $items_order_id . '&attachment_id=' . $wcpoa_id . '&wcpoa_attachment_order_id='.$items_order_id . $this->wcpoa_get_order_key_query( $items_order_id );
 
             $attachment_name = get_the_title( $wcpoa_id );
 

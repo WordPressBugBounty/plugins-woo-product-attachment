@@ -16,7 +16,7 @@
  * Plugin Name: Product Attachment for WooCommerce
  * Plugin URI:        https://www.thedotstore.com/
  * Description:       Product Attachment for WooCommerce Plugin will help you to attach/ upload any kind of files for a customer orders. You can attach any type of file like Images, documents, videos and many more..
- * Version:           2.3.3
+ * Version:           2.3.4
  * Author:            theDotstore
  * Author URI:        https://profiles.wordpress.org/dots
  * License:           GPL-2.0+
@@ -26,8 +26,8 @@
  * Requires Plugins:  woocommerce
  *
  * WC requires at least: 4.5
- * WP tested up to:      7.0.1
- * WC tested up to:      10.9.4
+ * WP tested up to:      7.1
+ * WC tested up to:      11.0.1
  * Requires PHP:         7.2
  * Requires at least:    5.0
  */
@@ -62,7 +62,7 @@ if ( !function_exists( 'wpap_fs' ) ) {
                 ),
                 'menu'             => array(
                     'slug'       => 'woocommerce_product_attachment',
-                    'first-path' => 'admin.php?page=woocommerce_product_attachment&tab=wcpoa-plugin-getting-started',
+                    'first-path' => 'admin.php?page=woocommerce_product_attachment&tab=wcpoa-plugin-getting-started&send-wizard-data=true',
                     'contact'    => false,
                     'support'    => false,
                 ),
@@ -87,7 +87,7 @@ if ( !defined( 'WCPOA_PLUGIN_PATH' ) ) {
     define( 'WCPOA_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 }
 if ( !defined( 'WCPOA_PLUGIN_VERSION' ) ) {
-    define( 'WCPOA_PLUGIN_VERSION', '2.3.3' );
+    define( 'WCPOA_PLUGIN_VERSION', '2.3.4' );
 }
 if ( !defined( 'WCPOA_PLUGIN_BASENAME' ) ) {
     define( 'WCPOA_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -359,5 +359,6 @@ if ( !function_exists( 'wcpoa_load_plugin_setup_wizard_connect_after' ) ) {
 add_action( 'before_woocommerce_init', function () {
     if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
         \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
     }
 } );

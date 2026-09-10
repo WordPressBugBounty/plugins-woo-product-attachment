@@ -8,8 +8,16 @@ $attachment_id=filter_input(INPUT_GET,'attachment_id',FILTER_SANITIZE_SPECIAL_CH
 $download_file=filter_input(INPUT_GET,'download_file',FILTER_SANITIZE_SPECIAL_CHARS);
 $wcpoa_attachment_order_id=filter_input(INPUT_GET,'wcpoa_attachment_order_id',FILTER_SANITIZE_SPECIAL_CHARS);
 
-// Defense in depth: never stream media from a bare attachment_id alone.
+// Defense in depth: never stream media from a bare attachment_id alone,
+// and never stream unless the public class already authorized this request.
 if ( empty( $attachment_id ) || ( empty( $download_file ) && empty( $wcpoa_attachment_order_id ) ) ) {
+    return;
+}
+if ( ! isset( $this ) || ! ( $this instanceof Woocommerce_Product_Attachment_Public ) ) {
+    return;
+}
+
+if ( ! $this->wcpoa_is_authorized_download_request( $attachment_id, $download_file, $wcpoa_attachment_order_id ) ) {
     return;
 }
        

@@ -118,11 +118,160 @@ class Woocommerce_Product_Attachment_Public {
             return;
         }
         wp_enqueue_script(
-            $this->plugin_name,
+            $this->wcpoa_get_public_script_handle(),
             plugin_dir_url( __FILE__ ) . 'js/woocommerce-product-attachment-public.js',
             array('jquery'),
             $this->version,
             false
+        );
+    }
+
+    /**
+     * Public script handle (must differ from admin handle to avoid collisions).
+     *
+     * @since 2.3.4
+     * @return string
+     */
+    public function wcpoa_get_public_script_handle() {
+        return $this->plugin_name . '-public';
+    }
+
+    /**
+     * Whether checkout user attachments are enabled.
+     *
+     * @since 2.3.4
+     * @return bool
+     */
+    public function wcpoa_is_checkout_attachment_enabled() {
+        $wcpoa_checkout_att_flag = get_option( 'wcpoa_show_checkout_user_att_flag' );
+        return empty( $wcpoa_checkout_att_flag ) || 'yes' === $wcpoa_checkout_att_flag;
+    }
+
+    /**
+     * Whether the store checkout page uses the Checkout block.
+     *
+     * @since 2.3.4
+     * @return bool
+     */
+    public function wcpoa_is_block_checkout() {
+        if ( class_exists( '\\Automattic\\WooCommerce\\Blocks\\Utils\\CartCheckoutUtils' ) && method_exists( '\\Automattic\\WooCommerce\\Blocks\\Utils\\CartCheckoutUtils', 'is_checkout_block_default' ) ) {
+            return (bool) \Automattic\WooCommerce\Blocks\Utils\CartCheckoutUtils::is_checkout_block_default();
+        }
+        $checkout_page_id = ( function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'checkout' ) : 0 );
+        return $checkout_page_id && has_block( 'woocommerce/checkout', $checkout_page_id );
+    }
+
+    /**
+     * Register (and localize) the premium checkout attachment script.
+     *
+     * @since 2.3.4
+     */
+    public function wcpoa_register_checkout_attachment_script() {
+        // Never register frontend checkout scripts during admin requests.
+        // Doing so reuses the shared plugin handle and breaks admin button JS.
+        if ( is_admin() && !wp_doing_ajax() ) {
+            return;
+        }
+        $script_handle = $this->wcpoa_get_public_script_handle();
+        if ( wp_script_is( $script_handle, 'registered' ) ) {
+            return;
+        }
+        wp_register_script(
+            $script_handle,
+            plugin_dir_url( __FILE__ ) . 'js/woocommerce-checkout-attachment-public__premium_only.js',
+            array('jquery'),
+            $this->version,
+            true
+        );
+        $max_upload_size = wp_max_upload_size();
+        $button_label = apply_filters( 'wcpoa_checkout_attachment_button', __( 'Add Attachment', 'woocommerce-product-attachment' ) );
+        $wcpoa_public_vars = array(
+            'ajaxurl'                => admin_url( 'admin-ajax.php' ),
+            'wcpoa_public_nonce'     => wp_create_nonce( 'public_ajax_verification' ),
+            'is_block_checkout'      => $this->wcpoa_is_block_checkout(),
+            'checkout_namespace'     => 'woocommerce-product-attachment',
+            'checkout_button_label'  => $button_label,
+            'clear_label'            => __( 'Clear', 'woocommerce-product-attachment' ),
+            'supported_formats_text' => __( 'Supported formats:', 'woocommerce-product-attachment' ),
+            'supported_formats'      => __( 'PDF, DOC, DOCX, JPG, JPEG, PNG, GIF, ZIP, TXT, XLS, XLSX, PPT, MOV', 'woocommerce-product-attachment' ),
+            'max_file_size_text'     => sprintf( 
+                /* translators: %s: maximum upload file size */
+                __( 'Maximum file size: %s', 'woocommerce-product-attachment' ),
+                size_format( $max_upload_size )
+             ),
+            'invalid_file_text'      => __( 'Invalid Import File.', 'woocommerce-product-attachment' ),
+            'loading_text'           => __( 'Loading...', 'woocommerce-product-attachment' ),
+        );
+        wp_localize_script( $script_handle, 'wcpoa_public_vars', $wcpoa_public_vars );
+    }
+
+    /**
+     * Register Store API extension schema for Checkout Block attachment IDs.
+     *
+     * @since 2.3.4
+     */
+    public function wcpoa_register_checkout_store_api_extension() {
+        if ( !$this->wcpoa_is_checkout_attachment_enabled() ) {
+            return;
+        }
+        if ( function_exists( 'woocommerce_store_api_register_endpoint_data' ) && class_exists( '\\Automattic\\WooCommerce\\StoreApi\\Schemas\\V1\\CheckoutSchema' ) ) {
+            woocommerce_store_api_register_endpoint_data( array(
+                'endpoint'        => \Automattic\WooCommerce\StoreApi\Schemas\V1\CheckoutSchema::IDENTIFIER,
+                'namespace'       => 'woocommerce-product-attachment',
+                'schema_callback' => array($this, 'wcpoa_checkout_block_extension_schema'),
+                'schema_type'     => ARRAY_A,
+            ) );
+        }
+    }
+
+    /**
+     * Register the checkout block integration instance.
+     *
+     * @since 2.3.4
+     * @param object $integration_registry Integration registry.
+     */
+    public function wcpoa_register_checkout_block_integration_instance( $integration_registry ) {
+        if ( !$this->wcpoa_is_checkout_attachment_enabled() ) {
+            return;
+        }
+        // Ensure the shared upload script is registered before the block script depends on it.
+        $this->wcpoa_register_checkout_attachment_script();
+        if ( !class_exists( 'WCPOA_Checkout_Blocks_Integration' ) ) {
+            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcpoa-checkout-blocks-integration.php';
+        }
+        if ( class_exists( 'WCPOA_Checkout_Blocks_Integration' ) && $integration_registry ) {
+            $integration_registry->register( new WCPOA_Checkout_Blocks_Integration($this->wcpoa_get_public_script_handle()) );
+        }
+    }
+
+    /**
+     * Store API schema for checkout attachment IDs.
+     *
+     * @since 2.3.4
+     * @return array
+     */
+    public function wcpoa_checkout_block_extension_schema() {
+        return array(
+            'attachment_ids' => array(
+                'description' => __( 'Checkout attachment media IDs uploaded by the customer.', 'woocommerce-product-attachment' ),
+                'type'        => array('string', 'null'),
+                'context'     => array(),
+                'arg_options' => array(
+                    'validate_callback' => function ( $value ) {
+                        if ( !is_string( $value ) && null !== $value ) {
+                            return new WP_Error('wcpoa_invalid_attachment_ids', __( 'Checkout attachment IDs must be a string.', 'woocommerce-product-attachment' ));
+                        }
+                        return true;
+                    },
+                    'sanitize_callback' => function ( $value ) {
+                        if ( null === $value || '' === $value ) {
+                            return '';
+                        }
+                        $ids = array_filter( array_map( 'absint', explode( ',', (string) $value ) ) );
+                        return implode( ',', $ids );
+                    },
+                ),
+            ),
         );
     }
 
@@ -247,6 +396,56 @@ class Woocommerce_Product_Attachment_Public {
     }
 
     /**
+     * Whether the current user may access files scoped to a WooCommerce order.
+     * Matches WC_Download_Handler: shop manager, order customer, or valid order key.
+     *
+     * @since 2.3.5
+     * @param WC_Order|false $order Order object.
+     * @return bool
+     */
+    private function wcpoa_current_user_can_access_order( $order ) {
+        if ( !$order instanceof WC_Order ) {
+            return false;
+        }
+        if ( is_user_logged_in() && (current_user_can( 'manage_woocommerce' ) || current_user_can( 'edit_shop_orders' )) ) {
+            return true;
+        }
+        if ( is_user_logged_in() && (int) $order->get_user_id() === get_current_user_id() ) {
+            return true;
+        }
+        $provided_key = filter_input( INPUT_GET, 'key', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+        if ( empty( $provided_key ) ) {
+            $provided_key = filter_input( INPUT_GET, 'order_key', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+        }
+        $provided_key = ( is_string( $provided_key ) ? wc_clean( $provided_key ) : '' );
+        if ( '' !== $provided_key && hash_equals( (string) $order->get_order_key(), (string) $provided_key ) ) {
+            return true;
+        }
+        if ( !is_user_logged_in() && 0 === (int) $order->get_user_id() && function_exists( 'WC' ) && WC()->session ) {
+            $session_order_id = absint( WC()->session->get( 'order_awaiting_payment' ) );
+            if ( $session_order_id && $session_order_id === (int) $order->get_id() ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Order key query string for checkout/admin-order download URLs.
+     *
+     * @since 2.3.5
+     * @param int|WC_Order $order_id Order ID or object.
+     * @return string
+     */
+    private function wcpoa_get_order_key_query( $order_id ) {
+        $order = ( $order_id instanceof WC_Order ? $order_id : wc_get_order( $order_id ) );
+        if ( !$order instanceof WC_Order ) {
+            return '';
+        }
+        return '&key=' . rawurlencode( $order->get_order_key() );
+    }
+
+    /**
      * Authorize a download request before streaming a media file.
      *
      * @param string $attachment_id Media library attachment ID.
@@ -254,16 +453,19 @@ class Woocommerce_Product_Attachment_Public {
      * @param string $order_id      Order ID (optional).
      * @return bool
      */
-    private function wcpoa_is_authorized_download_request( $attachment_id, $download_file = '', $order_id = '' ) {
+    public function wcpoa_is_authorized_download_request( $attachment_id, $download_file = '', $order_id = '' ) {
         $attachment_id = (string) absint( $attachment_id );
         $download_file = (string) $download_file;
         $order_id = (string) absint( $order_id );
         if ( '' === $attachment_id || '0' === $attachment_id ) {
             return false;
         }
-        // Order/checkout media download (no plugin attachment key).
+        // Checkout/admin order media: must belong to the order AND the user must own it.
         if ( '' !== $order_id && '0' !== $order_id && '' === $download_file ) {
-            return $this->wcpoa_attachment_belongs_to_order( $attachment_id, $order_id );
+            if ( !$this->wcpoa_attachment_belongs_to_order( $attachment_id, $order_id ) ) {
+                return false;
+            }
+            return $this->wcpoa_current_user_can_access_order( wc_get_order( $order_id ) );
         }
         // Product/bulk/order-item download requires matching plugin key → media ID.
         if ( '' !== $download_file ) {
@@ -299,13 +501,9 @@ class Woocommerce_Product_Attachment_Public {
          * which still exposes the file. Deny the request instead.
          */
         if ( empty( $download_file ) && empty( $wcpoa_attachment_order_id ) ) {
-            $media_post = get_post( absint( $attachment_id ) );
-            if ( $media_post && 'attachment' === $media_post->post_type ) {
-                wp_die( esc_html__( 'You are not allowed to download this attachment.', 'woocommerce-product-attachment' ), esc_html__( 'Forbidden', 'woocommerce-product-attachment' ), array(
-                    'response' => 403,
-                ) );
-            }
-            return;
+            wp_die( esc_html__( 'You are not allowed to download this attachment.', 'woocommerce-product-attachment' ), esc_html__( 'Forbidden', 'woocommerce-product-attachment' ), array(
+                'response' => 403,
+            ) );
         }
         // Only stream media that is registered as a plugin attachment for these params.
         if ( !$this->wcpoa_is_authorized_download_request( $attachment_id, $download_file, $wcpoa_attachment_order_id ) ) {
@@ -361,11 +559,20 @@ class Woocommerce_Product_Attachment_Public {
                 }
             }
             wp_die( sprintf( esc_html__( '<strong>This Attachement is Expired.</strong> You are no longer to download this attachement.', 'woocommerce-product-attachment' ) ) );
-        } else {
-            // Product-page / bulk (attachment_id + download_file) or
-            // order/checkout media (attachment_id + wcpoa_attachment_order_id).
-            require_once plugin_dir_path( __FILE__ ) . 'partials/wcpoa-send-file.php';
         }
+        // Product-page / bulk: attachment_id + download_file (already authorized).
+        if ( !empty( $attachment_id ) && !empty( $download_file ) ) {
+            require_once plugin_dir_path( __FILE__ ) . 'partials/wcpoa-send-file.php';
+            return;
+        }
+        // Checkout / admin-order media: attachment_id + order id (already authorized + ownership).
+        if ( !empty( $attachment_id ) && !empty( $wcpoa_attachment_order_id ) ) {
+            require_once plugin_dir_path( __FILE__ ) . 'partials/wcpoa-send-file.php';
+            return;
+        }
+        wp_die( esc_html__( 'You are not allowed to download this attachment.', 'woocommerce-product-attachment' ), esc_html__( 'Forbidden', 'woocommerce-product-attachment' ), array(
+            'response' => 403,
+        ) );
     }
 
     /**
@@ -1475,6 +1682,35 @@ class Woocommerce_Product_Attachment_Public {
      * @since 1.0.0
      */
     public function wcpoa_order_checkout_attachment_form() {
+        if ( $this->wcpoa_is_block_checkout() ) {
+            return;
+        }
+        $this->wcpoa_render_checkout_attachment_file_form();
+    }
+
+    /**
+     * Output the hidden file input form for Checkout Block pages.
+     *
+     * Classic checkout uses woocommerce_before_checkout_form; that hook does not run for blocks.
+     *
+     * @since 2.3.4
+     */
+    public function wcpoa_order_checkout_attachment_form_for_blocks() {
+        if ( !is_checkout() || is_order_received_page() || !$this->wcpoa_is_block_checkout() ) {
+            return;
+        }
+        if ( !$this->wcpoa_is_checkout_attachment_enabled() ) {
+            return;
+        }
+        $this->wcpoa_render_checkout_attachment_file_form();
+    }
+
+    /**
+     * Render the hidden multipart form used to pick checkout attachment files.
+     *
+     * @since 2.3.4
+     */
+    private function wcpoa_render_checkout_attachment_file_form() {
         ?>
         <form name="wcpoa_checkout_attachment" id="wcpoa_checkout_attachment" method="post" action="" enctype="multipart/form-data" style="visibility: hidden; display: none; opacity: 0;">
             <input type="file" name="wcpoa_order_file_attachment" id="wcpoa_order_file_attachment" style="display:none;" onchange="fileSelected(this)" />
@@ -1509,23 +1745,68 @@ class Woocommerce_Product_Attachment_Public {
      * @param $order
      */
     public function wcpoa_order_checkout_attachment_save_processed( $order_id, $posted_data, $order ) {
-        $wcpoa_all_ids = $posted_data['wcpoa_order_file_attachment_ids'];
-        if ( !empty( $wcpoa_all_ids ) ) {
-            if ( class_exists( 'Automattic\\WooCommerce\\Utilities\\OrderUtil' ) ) {
-                if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
-                    // HPOS usage is enabled.
-                    $order = wc_get_order( $order_id );
+        $wcpoa_all_ids = ( isset( $posted_data['wcpoa_order_file_attachment_ids'] ) ? $posted_data['wcpoa_order_file_attachment_ids'] : '' );
+        $this->wcpoa_persist_checkout_attachment_ids( $order_id, $wcpoa_all_ids, $order );
+    }
+
+    /**
+     * Persist checkout attachments submitted through the Checkout Block / Store API.
+     *
+     * @since 2.3.4
+     *
+     * @param \WC_Order        $order   Order object.
+     * @param \WP_REST_Request $request Request object.
+     */
+    public function wcpoa_store_api_checkout_attachment_save( $order, $request ) {
+        $extensions = $request->get_param( 'extensions' );
+        if ( empty( $extensions ) || !is_array( $extensions ) ) {
+            return;
+        }
+        $params = ( isset( $extensions['woocommerce-product-attachment'] ) ? $extensions['woocommerce-product-attachment'] : array() );
+        if ( empty( $params ) || !is_array( $params ) ) {
+            return;
+        }
+        $wcpoa_all_ids = ( isset( $params['attachment_ids'] ) ? $params['attachment_ids'] : '' );
+        if ( empty( $wcpoa_all_ids ) ) {
+            return;
+        }
+        $this->wcpoa_persist_checkout_attachment_ids( $order->get_id(), $wcpoa_all_ids, $order );
+    }
+
+    /**
+     * Save checkout attachment IDs onto an order.
+     *
+     * @since 2.3.4
+     *
+     * @param int            $order_id Order ID.
+     * @param string         $wcpoa_all_ids Comma-separated attachment IDs.
+     * @param \WC_Order|null $order Order object when available.
+     */
+    private function wcpoa_persist_checkout_attachment_ids( $order_id, $wcpoa_all_ids, $order = null ) {
+        if ( empty( $wcpoa_all_ids ) ) {
+            return;
+        }
+        $ids = array_filter( array_map( 'absint', explode( ',', (string) $wcpoa_all_ids ) ) );
+        if ( empty( $ids ) ) {
+            return;
+        }
+        $wcpoa_all_ids = implode( ',', $ids );
+        if ( $order instanceof WC_Order ) {
+            $order->update_meta_data( '_wcpoa_checkout_attachment_ids', $wcpoa_all_ids );
+            $order->save();
+            return;
+        }
+        if ( class_exists( 'Automattic\\WooCommerce\\Utilities\\OrderUtil' ) ) {
+            if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+                $order = wc_get_order( $order_id );
+                if ( $order ) {
                     $order->update_meta_data( '_wcpoa_checkout_attachment_ids', $wcpoa_all_ids );
                     $order->save();
-                } else {
-                    // Traditional CPT-based orders are in use.
-                    update_post_meta( $order_id, '_wcpoa_checkout_attachment_ids', $wcpoa_all_ids );
                 }
-            } else {
-                // Traditional CPT-based orders are in use.
-                update_post_meta( $order_id, '_wcpoa_checkout_attachment_ids', $wcpoa_all_ids );
+                return;
             }
         }
+        update_post_meta( $order_id, '_wcpoa_checkout_attachment_ids', $wcpoa_all_ids );
     }
 
     /**
@@ -1536,43 +1817,47 @@ class Woocommerce_Product_Attachment_Public {
      * @param $checkout
      */
     public function wcpoa_order_checkout_attachment( $checkout ) {
-        $wcpoa_checkout_att_flag = get_option( 'wcpoa_show_checkout_user_att_flag' );
-        if ( isset( $wcpoa_checkout_att_flag ) && empty( $wcpoa_checkout_att_flag ) || $wcpoa_checkout_att_flag === 'yes' ) {
-            $wcpoa_checkout_att_btn = apply_filters( 'wcpoa_checkout_attachment_button', 'Add Attachment' );
-            ?>
-            <div class="wcpoa_order_attachments">
-                <div class="wcpoa_order_attachments_btn">
-                    <input type="button" value="<?php 
-            esc_attr_e( $wcpoa_checkout_att_btn, 'woocommerce-product-attachment' );
-            ?>" onclick="openAttachment()" id="wcpoa-order-file-attachment-opn">
-                    <input type="hidden" name="wcpoa_order_file_attachment_ids" id="wcpoa_order_file_attachment_ids">
-                    
-                    <div class="wcpoa-checkout-attachment-info" style="margin-top: 5px;">
-                        <div class="wcpoa-supported-formats">
-                            <small class="wcpoa-format-info">
-                                <?php 
-            esc_html_e( 'Supported formats:', 'woocommerce-product-attachment' );
-            ?>
-                                <strong><?php 
-            esc_html_e( 'PDF, DOC, DOCX, JPG, JPEG, PNG, GIF, ZIP, TXT, XLS, XLSX, PPT, MOV', 'woocommerce-product-attachment' );
-            ?></strong>
-                            </small>
-                            <br>
-                            <small class="wcpoa-size-limit">
-                                <?php 
-            $max_upload_size = wp_max_upload_size();
-            printf( esc_html__( 'Maximum file size: %s', 'woocommerce-product-attachment' ), esc_html( size_format( $max_upload_size ) ) );
-            ?>
-                            </small>
-                        </div>
+        // Checkout Block UI is rendered via Slot Fill in JS.
+        if ( $this->wcpoa_is_block_checkout() ) {
+            return;
+        }
+        if ( !$this->wcpoa_is_checkout_attachment_enabled() ) {
+            return;
+        }
+        $wcpoa_checkout_att_btn = apply_filters( 'wcpoa_checkout_attachment_button', 'Add Attachment' );
+        ?>
+        <div class="wcpoa_order_attachments">
+            <div class="wcpoa_order_attachments_btn">
+                <input type="button" value="<?php 
+        esc_attr_e( $wcpoa_checkout_att_btn, 'woocommerce-product-attachment' );
+        ?>" onclick="openAttachment()" id="wcpoa-order-file-attachment-opn">
+                <input type="hidden" name="wcpoa_order_file_attachment_ids" id="wcpoa_order_file_attachment_ids">
+                
+                <div class="wcpoa-checkout-attachment-info" style="margin-top: 5px;">
+                    <div class="wcpoa-supported-formats">
+                        <small class="wcpoa-format-info">
+                            <?php 
+        esc_html_e( 'Supported formats:', 'woocommerce-product-attachment' );
+        ?>
+                            <strong><?php 
+        esc_html_e( 'PDF, DOC, DOCX, JPG, JPEG, PNG, GIF, ZIP, TXT, XLS, XLSX, PPT, MOV', 'woocommerce-product-attachment' );
+        ?></strong>
+                        </small>
+                        <br>
+                        <small class="wcpoa-size-limit">
+                            <?php 
+        $max_upload_size = wp_max_upload_size();
+        printf( esc_html__( 'Maximum file size: %s', 'woocommerce-product-attachment' ), esc_html( size_format( $max_upload_size ) ) );
+        ?>
+                        </small>
                     </div>
                 </div>
-                <div class="wcpoa_order_attachments_items">
-                    <a href="javascript:void(0)" style="display:none;" id="wcpoa-clear-aitem" onclick="wcpoa_reset_files(this)">Clear</a>
-                </div>
             </div>
-            <?php 
-        }
+            <div class="wcpoa_order_attachments_items">
+                <a href="javascript:void(0)" style="display:none;" id="wcpoa-clear-aitem" onclick="wcpoa_reset_files(this)">Clear</a>
+            </div>
+        </div>
+        <?php 
     }
 
     /**

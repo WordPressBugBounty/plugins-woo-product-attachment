@@ -3,9 +3,9 @@ Contributors: dots,jitendrabanjara1991,niravcse006
 Donate link: https://www.thedotstore.com/
 Tags: attachment,woocommerce,productattachment,orderattachment,dots
 Requires at least: 5.0
-Tested up to: 7.0.1
-WC tested up to: 10.9.4
-Stable tag: 2.3.3
+Tested up to: 7.1
+WC tested up to: 11.1
+Stable tag: 2.3.4
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -120,6 +120,12 @@ Ans: By Product Attachment for WooCommerce plugin you can enable “set date exp
 11.
 
 == Changelog ==
+= 2.3.4 =
+* [Enhancement] User attachment compatibility with checkout block
+* [Enhancement] Fixed an authorization vulnerability issue.
+* [Enhancement] Compatible with WooCommerce 11.0.x
+* [Enhancement] Compatible with WordPress 7.1.x
+
 = 2.3.3 =
 * [Bug Fix] Fixed PHP warning related to strpos.
 * [Enhancement] Improved attachment default order status selection behavior.
